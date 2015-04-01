@@ -14,13 +14,15 @@ In this Arduino Library we can read all data of energy parameters.
 ***  
 ###Functions  
   
-* float Voltage(char phase);					// Read Voltage at selected phase
-* float Current(char phase);					// Read Current at selected phase
-* float ActivePower(char phase);				// Read Active Power at selected phase
-* float ReactivePower(char phase);				// Read Re Active Power at selected phase
-* float ApparentPower(char phase);				// Read Apparent Power at selected phase
-* float PowerFactor(char phase);				// Read Power Factor at selected phase
-* float Frequency(void);						// Read Frequency of system
+| Data Type | Function                    | Description                               |
+|-----------|-----------------------------|-------------------------------------------|
+| float     | Voltage(char phase);		  | Read Voltage at selected phase            |
+| float     | Current(char phase);		  | Read Current at selected phase            |
+| float     | ActivePower(char phase);	  | Read Active Power at selected phase       |
+| float     | ReactivePower(char phase);  | Read Re Active Power at selected phase    |
+| float     | ApparentPower(char phase);  | Read Apparent Power at selected phase     |
+| float     | PowerFactor(char phase);	  | Read Power Factor at selected phase       |
+| float     | Frequency(void);			  | Read Frequency of system                  |
 
 ***
 ###License
