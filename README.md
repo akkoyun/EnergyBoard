@@ -4,12 +4,25 @@
 The MAX78630+PPM is an energy measurement processor for polyphase power-monitoring systems. It is designed for real-time monitoring for a variety of typical three-phase configurations in industrial applications. The MAX78630+PPM provides up to six analog inputs for interfacing to voltage and current sensors. Scaled voltages from the sensors are fed to the single converter front-end using a high-resolution delta-sigma converter. Supported current sensors include current transformers (CTs), Rogowski coils, and resistive shunts.  
   
 In this Arduino Library we can read all data of energy parameters.
+***
 
 ###Repository Contents
 * /Firmware - Example Arduino sketch to use with the board.
 * /Wiring - Board connection examples.
 * /Libraries - All Arduino libraries
+
+***  
+###Functions  
   
+* float Voltage(char phase);					// Read Voltage at selected phase
+* float Current(char phase);					// Read Current at selected phase
+* float ActivePower(char phase);				// Read Active Power at selected phase
+* float ReactivePower(char phase);				// Read Re Active Power at selected phase
+* float ApparentPower(char phase);				// Read Apparent Power at selected phase
+* float PowerFactor(char phase);				// Read Power Factor at selected phase
+* float Frequency(void);						// Read Frequency of system
+
+***
 ###License
 The MIT License (MIT)
 
