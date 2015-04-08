@@ -1,0 +1,27 @@
+#######################################
+# Syntax Coloring Map For EnergyBoard
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+MAX78630	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+Voltage			KEYWORD2
+Current			KEYWORD2
+ActivePower		KEYWORD2
+ReactivePower	KEYWORD2
+ApparentPower	KEYWORD2
+PowerFactor		KEYWORD2
+Frequency		KEYWORD2
+Temperature		KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
