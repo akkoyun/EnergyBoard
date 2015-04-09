@@ -5,13 +5,6 @@ The MAX78630+PPM is an energy measurement processor for polyphase power-monitori
   
 In this Arduino Library we can read all data of energy parameters.
 ***
-
-###Repository Contents
-* /Firmware - Example Arduino sketch to use with the board.
-* /Wiring - Board connection examples.
-* /Libraries - All Arduino libraries
-
-***  
 ###Functions  
   
 | Data Type | Function                    | Description                               |
