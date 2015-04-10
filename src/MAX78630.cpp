@@ -1,13 +1,14 @@
-/******************************************************************************
- *
- *  Copyright (C) 2014-2015 LVX Elektronik A.S. (software@lvx.com.tr)
- *  Can not be copied and/or distributed without the express permission of LVX
- *
- *  Project   : MAX78630 Library
- *  Developer : Mehmet Gunce Akkoyun (gunce.akkoyun@lvx.com.tr)
- *  Revision  : A0.1.0
- *
- ******************************************************************************/
+// *******************************************************************************
+// *
+// *  Copyright (C) 2014-2015 X2Bus (software@x2bus.com)
+// *  Can not be copied and/or distributed without the express permission of X2Bus
+// *
+// *  Library   : X2Bus Energy Board (MAX78630)
+// *  Developer : Mehmet Gunce Akkoyun (gunce.akkoyun@x2bus.com)
+// *  GitHub	: https://github.com/akkoyun/MAX78630
+// *  Revision  : 0.1.0
+// *
+// *******************************************************************************
 
 #include "Arduino.h"
 #include "MAX78630.h"
