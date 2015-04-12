@@ -22,10 +22,10 @@
 #define Serial_BoudRate					38400						// Serial Boud Rate (Default: 38400)
 
 // Gain Multipliers
-#define MAX78630_Voltage_Gain			0.0000793945940258412		// Voltage Gain Default
-#define MAX78630_Current_Gain			0.00000596046186144157		// Current Gain Default
+#define MAX78630_Voltage_Gain				0.0000793945940258412		// Voltage Gain Default
+#define MAX78630_Current_Gain				0.00000596046186144157		// Current Gain Default
 #define MAX78630_Power_Gain				0.00396962860118015			// Power Gain Default
-#define MAX78630_Power_Factor_Gain		0.00000023841946872415		// Power Factor Gain Default
+#define MAX78630_Power_Factor_Gain			0.00000023841946872415		// Power Factor Gain Default
 #define MAX78630_Frequency_Gain			0.0000152587672179127		// Frequency Gain Default
 
 class MAX78630
@@ -44,7 +44,7 @@ private:
 	bool ClearBuffer(void);											// Clear Serial Buffer Function (internal)
     bool SendCommand(int CHR1, int CHR2);                           // Send Command
 
-    int MAX78630_Gain = 0;											// Gain Variable
+    int MAX78630_Gain;												// Gain Variable
 };
 
 #endif /* defined(__MAX78630__) */
