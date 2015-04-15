@@ -19,80 +19,190 @@
     </section>
 
     <section class="main-content">
-      <h3>
-<a id="x2bus-energy-board" class="anchor" href="#x2bus-energy-board" aria-hidden="true"><span class="octicon octicon-link"></span></a>X2Bus Energy Board</h3>
+      <h2>
+<a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h2>
 
-<p><strong>Description</strong><br>
-The MAX78630+PPM is an energy measurement processor for polyphase power-monitoring systems. It is designed for real-time monitoring for a variety of typical three-phase configurations in industrial applications. The MAX78630+PPM provides up to six analog inputs for interfacing to voltage and current sensors. Scaled voltages from the sensors are fed to the single converter front-end using a high-resolution delta-sigma converter. Supported current sensors include current transformers (CTs), Rogowski coils, and resistive shunts.  </p>
+<pre><code>The EnergyBoard is an energy measurement processor for polyphase power-monitoring 
+systems. It is designed for real-time monitoring for a variety of typical three-phase 
+configurations in industrial applications. The MAX78630 provides up to six analog 
+inputs for interfacing to voltage and current sensors. Scaled voltages from the 
+sensors are fed to the single converter front-end using a high-resolution delta-sigma 
+converter. Supported current sensors include current transformers (CTs), Rogowski 
+coils, and resistive shunts.  
 
-<p>In this Arduino Library we can read all data of energy parameters.</p>
+In this Arduino Library we can read all data of energy parameters.
+</code></pre>
 
-<hr>
+<h2>
+<a id="rms-voltage" class="anchor" href="#rms-voltage" aria-hidden="true"><span class="octicon octicon-link"></span></a>RMS Voltage</h2>
 
-<h3>
-<a id="functions" class="anchor" href="#functions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Functions</h3>
+<p>The EnergyBoard reports true RMS measurements for each input. An RMS value is 
+obtained by performing the sum of the squares of instantaneous values over a time 
+interval (accumulation interval) and then performing a square root of the result 
+after dividing by the number of samples in the interval.</p>
 
-<table>
-<thead>
-<tr>
-<th>Data Type</th>
-<th>Function</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>float</td>
-<td>Voltage(char phase);</td>
-<td> Read Voltage at selected phase</td>
-</tr>
-<tr>
-<td>float</td>
-<td>Current(char phase);</td>
-<td>Read Current at selected phase</td>
-</tr>
-<tr>
-<td>float</td>
-<td>ActivePower(char phase);</td>
-<td>Read Active Power at selected phase</td>
-</tr>
-<tr>
-<td>float</td>
-<td>ReactivePower(char phase);</td>
-<td>Read Re Active Power at selected phase</td>
-</tr>
-<tr>
-<td>float</td>
-<td>ApparentPower(char phase);</td>
-<td>Read Apparent Power at selected phase</td>
-</tr>
-<tr>
-<td>float</td>
-<td>PowerFactor(char phase);</td>
-<td>Read Power Factor at selected phase</td>
-</tr>
-<tr>
-<td>float</td>
-<td>Frequency(void);</td>
-<td>Read Frequency of system</td>
-</tr>
-</tbody>
-</table>
+<p><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Sine_wave_voltages.svg/530px-Sine_wave_voltages.svg.png" alt="RMS Voltage"><br>
+<code>Vrms : Root Mean Square of Voltage</code><br>
+<code>Vpk : Peak Voltage</code><br>
+<code>Vpp : Peak to Peak Voltage</code>  </p>
 
-<hr>
+<pre><code>Syntax
+EnergyBoard.Voltage(char phase);
 
-<h3>
-<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h3>
+Parameters
+phase : Phase of voltage (char) for example 'R', 'S', 'T'
 
-<p>The MIT License (MIT)</p>
+Returns
+Voltage value in float data type
 
-<p>Copyright (c) 2015 <a href="https://github.com/X2Bus" class="user-mention">@X2Bus</a></p>
+Example
+Float Voltage_R = EnergyBoard.Voltage('R');
+</code></pre>
 
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<h2>
+<a id="rms-current" class="anchor" href="#rms-current" aria-hidden="true"><span class="octicon octicon-link"></span></a>RMS Current</h2>
 
-<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>The EnergyBoard reports true RMS measurements for current inputs. The RMS current is 
+obtained by performing the sum of the squares of the instantaneous voltage samples 
+over the accumulation interval and then performing a square root of the result after 
+dividing by the number of samples in the interval.</p>
 
-<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+<pre><code>Syntax
+EnergyBoard.Current(char phase);
+
+Parameters
+phase : Phase of current (char) for example 'R', 'S', 'T'
+
+Returns
+Current value in float data type
+
+Example
+Float Current_R = EnergyBoard.Current('R');
+</code></pre>
+
+<h2>
+<a id="active-power" class="anchor" href="#active-power" aria-hidden="true"><span class="octicon octicon-link"></span></a>Active Power</h2>
+
+<p>The instantaneous power results (PA, PB, PC) are obtained by multiplying aligned instantaneous 
+voltage and current samples.</p>
+
+<p><img src="http://www.electronics-tutorials.ws/accircuits/acp29.gif?74587b" alt="Active Power"></p>
+
+<pre><code>Syntax
+EnergyBoard.ActivePower(char phase);
+
+Parameters
+phase : Phase of power (char) for example 'R', 'S', 'T'
+
+Returns
+Active Power value in float data type
+
+Example
+Float ActivePower_R = EnergyBoard.ActivePower('R');
+</code></pre>
+
+<h2>
+<a id="reactive-power" class="anchor" href="#reactive-power" aria-hidden="true"><span class="octicon octicon-link"></span></a>ReActive Power</h2>
+
+<p>Instantaneous reactive power results are calculated by multiplying the instantaneous samples 
+of current and the instantaneous quadrature voltage. </p>
+
+<p><img src="http://www.blc.lsbu.ac.uk/eservices/Module1/Graphics/PF3.gif" alt="ReActive Power"></p>
+
+<pre><code>Syntax
+EnergyBoard.ReactivePower(char phase);
+
+Parameters
+phase : Phase of power (char) for example 'R', 'S', 'T'
+
+Returns
+ReActive Power value in float data type
+
+Example
+Float ReactivePower_R = EnergyBoard.ReactivePower('R');
+</code></pre>
+
+<h2>
+<a id="apparent-power" class="anchor" href="#apparent-power" aria-hidden="true"><span class="octicon octicon-link"></span></a>Apparent Power</h2>
+
+<p>The apparent power, also referred as Volt-Amps, is the product of low rate RMS voltage and 
+current results. Offsets applied to RMS current will affect apparent power results.</p>
+
+<pre><code>Syntax
+EnergyBoard.ApparentPower(char phase);
+
+Parameters
+phase : Phase of power (char) for example 'R', 'S', 'T'
+
+Returns
+Apparent Power value in float data type
+
+Example
+Float ApparentPower_R = EnergyBoard.ApparentPower('R');
+</code></pre>
+
+<h2>
+<a id="powerfactor-cosfi" class="anchor" href="#powerfactor-cosfi" aria-hidden="true"><span class="octicon octicon-link"></span></a>PowerFactor (Cosfi)</h2>
+
+<p>The apparent power, also referred as Volt-Amps, is the product of low rate RMS voltage 
+and current results. Offsets applied to RMS current will affect apparent power results.</p>
+
+<p><img src="http://www.practicalmachinist.com/vb/attachments/f11/35192d1307402684-calc-power-consumption-elect-meter-power-triangle.jpg" alt="Cos Fi">  </p>
+
+<pre><code>Syntax
+EnergyBoard.PowerFactor(char phase);
+
+Parameters
+phase : Phase of power factor (char) for example 'R', 'S', 'T'
+
+Returns
+PowerFactor value in float data type
+
+Example
+Float PowerFactor_R = EnergyBoard.PowerFactor('R');
+</code></pre>
+
+<h2>
+<a id="frequency" class="anchor" href="#frequency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Frequency</h2>
+
+<pre><code>Syntax
+EnergyBoard.Frequency(char phase);
+
+Parameters
+None
+
+Returns
+Frequency value in float data type
+
+Example
+Float Frequency = EnergyBoard.Frequency();
+</code></pre>
+
+<h2>
+<a id="licences" class="anchor" href="#licences" aria-hidden="true"><span class="octicon octicon-link"></span></a>Licences</h2>
+
+<p>All source code is licensed under the <a href="http://opensource.org/licenses/MIT">MIT License</a></p>
+
+<pre><code>Copyright (c) 2015 X2bus &lt;info@x2bus.com&gt;
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished
+to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+</code></pre>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/x2bus/EnergyBoard">X2Bus Energyboard</a> is maintained by <a href="https://github.com/x2bus">x2bus</a>.</span>
