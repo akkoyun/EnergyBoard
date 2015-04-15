@@ -1,7 +1,7 @@
 ## Description
-	The MAX78630+PPM is an energy measurement processor for polyphase power-monitoring 
+	The EnergyBoard is an energy measurement processor for polyphase power-monitoring 
 	systems. It is designed for real-time monitoring for a variety of typical three-phase 
-	configurations in industrial applications. The MAX78630+PPM provides up to six analog 
+	configurations in industrial applications. The MAX78630 provides up to six analog 
 	inputs for interfacing to voltage and current sensors. Scaled voltages from the 
 	sensors are fed to the single converter front-end using a high-resolution delta-sigma 
 	converter. Supported current sensors include current transformers (CTs), Rogowski 
@@ -113,8 +113,6 @@ The apparent power, also referred as Volt-Amps, is the product of low rate RMS v
 and current results. Offsets applied to RMS current will affect apparent power results.
 
 ![Cos Fi](http://www.practicalmachinist.com/vb/attachments/f11/35192d1307402684-calc-power-consumption-elect-meter-power-triangle.jpg)  
-`V : Voltage`  
-`I : Current`  
 
 	Syntax
 	EnergyBoard.PowerFactor(char phase);
