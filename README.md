@@ -12,10 +12,10 @@ obtained by performing the sum of the squares of instantaneous values over a tim
 interval (accumulation interval) and then performing a square root of the result 
 after dividing by the number of samples in the interval.
 
-![RMS Voltage](http://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Sine_wave_voltages.svg/530px-Sine_wave_voltages.svg.png)
-`Vrms : Root Mean Square of Voltage`
-`Vpk : Peak Voltage`
-`Vpp : Peak to Peak Voltage`
+![RMS Voltage](http://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Sine_wave_voltages.svg/530px-Sine_wave_voltages.svg.png)  
+`Vrms : Root Mean Square of Voltage`  
+`Vpk : Peak Voltage`  
+`Vpp : Peak to Peak Voltage`  
 	
 	Syntax
 	EnergyBoard.Voltage(char phase);
@@ -51,8 +51,6 @@ dividing by the number of samples in the interval.
   
 | Data Type | Function                    | Description                               |
 |-----------|-----------------------------|-------------------------------------------|
-| float     | Voltage(char phase);		  | Read Voltage at selected phase            |
-| float     | Current(char phase);		  | Read Current at selected phase            |
 | float     | ActivePower(char phase);	  | Read Active Power at selected phase       |
 | float     | ReactivePower(char phase);  | Read Re Active Power at selected phase    |
 | float     | ApparentPower(char phase);  | Read Apparent Power at selected phase     |
