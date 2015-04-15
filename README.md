@@ -48,10 +48,27 @@ dividing by the number of samples in the interval.
 	Example
 	Float Current_R = EnergyBoard.Current('R');
 
+## Active Power
+
+The instantaneous power results (PA, PB, PC) are obtained by multiplying aligned instantaneous 
+voltage and current samples. The sum of these results are then averaged over N samples 
+(accumulation time) to compute the average active power (WATT_A, WATT_B, WATT_C).
+
+	Syntax
+	EnergyBoard.ActivePower(char phase);
+	
+	Parameters
+	phase : Phase of power (char) for example 'R', 'S', 'T'
+	
+	Returns
+	Active Power value in float data type
+	
+	Example
+	Float ActivePower_R = EnergyBoard.ActivePower('R');
+
   
 | Data Type | Function                    | Description                               |
 |-----------|-----------------------------|-------------------------------------------|
-| float     | ActivePower(char phase);	  | Read Active Power at selected phase       |
 | float     | ReactivePower(char phase);  | Read Re Active Power at selected phase    |
 | float     | ApparentPower(char phase);  | Read Apparent Power at selected phase     |
 | float     | PowerFactor(char phase);	  | Read Power Factor at selected phase       |
