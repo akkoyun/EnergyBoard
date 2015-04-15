@@ -57,6 +57,8 @@ dividing by the number of samples in the interval.
 The instantaneous power results (PA, PB, PC) are obtained by multiplying aligned instantaneous 
 voltage and current samples.
 
+![Active Power](http://www.electronics-tutorials.ws/accircuits/acp29.gif?74587b)
+
 	Syntax
 	EnergyBoard.ActivePower(char phase);
 	
@@ -73,6 +75,8 @@ voltage and current samples.
 
 Instantaneous reactive power results are calculated by multiplying the instantaneous samples 
 of current and the instantaneous quadrature voltage. 
+
+![ReActive Power](http://www.electronics-tutorials.ws/accircuits/acp30.gif?74587b)
 
 	Syntax
 	EnergyBoard.ReactivePower(char phase);
