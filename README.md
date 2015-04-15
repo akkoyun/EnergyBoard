@@ -7,19 +7,24 @@ In this Arduino Library we can read all data of energy parameters.
 
 ## Functions
 
-**Read RMS Voltage**
+Read RMS Voltage
+
 	Description
 	The EnergyBoard reports true RMS measurements for each input. An RMS value is 
 	obtained by performing the sum of the squares of instantaneous values over a time 
 	interval (accumulation interval) and then performing a square root of the result 
 	after dividing by the number of samples in the interval.
-	**Syntax**
+	
+	Syntax
 	EnergyBoard.Voltage(char phase);
-	**Parameters**
+	
+	Parameters
 	phase : Phase of voltage (char) for example 'R', 'S', 'T'
-	**Returns**
+	
+	Returns
 	Voltage value in float data type
-	**Example**
+	
+	Example
 	Float Voltage_R = EnergyBoard.Voltage('R');
 	
   
