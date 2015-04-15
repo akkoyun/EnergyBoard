@@ -4,8 +4,24 @@
 The MAX78630+PPM is an energy measurement processor for polyphase power-monitoring systems. It is designed for real-time monitoring for a variety of typical three-phase configurations in industrial applications. The MAX78630+PPM provides up to six analog inputs for interfacing to voltage and current sensors. Scaled voltages from the sensors are fed to the single converter front-end using a high-resolution delta-sigma converter. Supported current sensors include current transformers (CTs), Rogowski coils, and resistive shunts.  
   
 In this Arduino Library we can read all data of energy parameters.
-***
-###Functions  
+
+## Functions
+
+**Read RMS Voltage**
+	Description
+	The EnergyBoard reports true RMS measurements for each input. An RMS value is 
+	obtained by performing the sum of the squares of instantaneous values over a time 
+	interval (accumulation interval) and then performing a square root of the result 
+	after dividing by the number of samples in the interval.
+	**Syntax**
+	EnergyBoard.Voltage(char phase);
+	**Parameters**
+	phase : Phase of voltage (char) for example 'R', 'S', 'T'
+	**Returns**
+	Voltage value in float data type
+	**Example**
+	Float Voltage_R = EnergyBoard.Voltage('R');
+	
   
 | Data Type | Function                    | Description                               |
 |-----------|-----------------------------|-------------------------------------------|
