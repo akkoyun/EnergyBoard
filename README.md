@@ -24,6 +24,25 @@ after dividing by the number of samples in the interval.
 	Example
 	Float Voltage_R = EnergyBoard.Voltage('R');
 	
+## Read RMS Current
+
+The EnergyBoard reports true RMS measurements for current inputs. The RMS current is 
+obtained by performing the sum of the squares of the instantaneous voltage samples 
+over the accumulation interval and then performing a square root of the result after 
+dividing by the number of samples in the interval.
+
+	Syntax
+	EnergyBoard.Current(char phase);
+	
+	Parameters
+	phase : Phase of current (char) for example 'R', 'S', 'T'
+	
+	Returns
+	Current value in float data type
+	
+	Example
+	Float Current_R = EnergyBoard.Current('R');
+
   
 | Data Type | Function                    | Description                               |
 |-----------|-----------------------------|-------------------------------------------|
