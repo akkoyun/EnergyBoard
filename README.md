@@ -104,6 +104,10 @@ current results. Offsets applied to RMS current will affect apparent power resul
 The apparent power, also referred as Volt-Amps, is the product of low rate RMS voltage 
 and current results. Offsets applied to RMS current will affect apparent power results.
 
+![Cos Fi](http://www.stampolampo.it/public/image/CosFi1.jpg)  
+`V : Voltage`  
+`I : Current`  
+
 	Syntax
 	EnergyBoard.PowerFactor(char phase);
 	
