@@ -51,8 +51,7 @@ dividing by the number of samples in the interval.
 ## Active Power
 
 The instantaneous power results (PA, PB, PC) are obtained by multiplying aligned instantaneous 
-voltage and current samples. The sum of these results are then averaged over N samples 
-(accumulation time) to compute the average active power (WATT_A, WATT_B, WATT_C).
+voltage and current samples.
 
 	Syntax
 	EnergyBoard.ActivePower(char phase);
@@ -66,11 +65,42 @@ voltage and current samples. The sum of these results are then averaged over N s
 	Example
 	Float ActivePower_R = EnergyBoard.ActivePower('R');
 
+## ReActive Power
+
+Instantaneous reactive power results are calculated by multiplying the instantaneous samples 
+of current and the instantaneous quadrature voltage. 
+
+	Syntax
+	EnergyBoard.ReactivePower(char phase);
+	
+	Parameters
+	phase : Phase of power (char) for example 'R', 'S', 'T'
+	
+	Returns
+	ReActive Power value in float data type
+	
+	Example
+	Float ReactivePower_R = EnergyBoard.ReactivePower('R');
+
+## ApparentPower Power
+
+The apparent power, also referred as Volt-Amps, is the product of low rate RMS voltage and 
+current results. Offsets applied to RMS current will affect apparent power results.
+
+	Syntax
+	EnergyBoard.ApparentPower(char phase);
+	
+	Parameters
+	phase : Phase of power (char) for example 'R', 'S', 'T'
+	
+	Returns
+	ApparentPower Power value in float data type
+	
+	Example
+	Float ApparentPower_R = EnergyBoard.ApparentPower('R');
   
 | Data Type | Function                    | Description                               |
 |-----------|-----------------------------|-------------------------------------------|
-| float     | ReactivePower(char phase);  | Read Re Active Power at selected phase    |
-| float     | ApparentPower(char phase);  | Read Apparent Power at selected phase     |
 | float     | PowerFactor(char phase);	  | Read Power Factor at selected phase       |
 | float     | Frequency(void);			  | Read Frequency of system                  |
 
