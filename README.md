@@ -5,7 +5,7 @@ The MAX78630+PPM is an energy measurement processor for polyphase power-monitori
   
 In this Arduino Library we can read all data of energy parameters.
 
-## Read RMS Voltage
+## RMS Voltage
 
 The EnergyBoard reports true RMS measurements for each input. An RMS value is 
 obtained by performing the sum of the squares of instantaneous values over a time 
@@ -29,7 +29,7 @@ after dividing by the number of samples in the interval.
 	Example
 	Float Voltage_R = EnergyBoard.Voltage('R');
 	
-## Read RMS Current
+## RMS Current
 
 The EnergyBoard reports true RMS measurements for current inputs. The RMS current is 
 obtained by performing the sum of the squares of the instantaneous voltage samples 
