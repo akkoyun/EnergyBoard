@@ -11,6 +11,11 @@ The EnergyBoard reports true RMS measurements for each input. An RMS value is
 obtained by performing the sum of the squares of instantaneous values over a time 
 interval (accumulation interval) and then performing a square root of the result 
 after dividing by the number of samples in the interval.
+
+![RMS Voltage](http://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Sine_wave_voltages.svg/530px-Sine_wave_voltages.svg.png)
+`Vrms : Root Mean Square of Voltage`
+`Vpk : Peak Voltage`
+`Vpp : Peak to Peak Voltage`
 	
 	Syntax
 	EnergyBoard.Voltage(char phase);
