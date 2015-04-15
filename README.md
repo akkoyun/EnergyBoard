@@ -76,7 +76,7 @@ voltage and current samples.
 Instantaneous reactive power results are calculated by multiplying the instantaneous samples 
 of current and the instantaneous quadrature voltage. 
 
-![ReActive Power](http://www.electronics-tutorials.ws/accircuits/acp30.gif?74587b)
+![ReActive Power](http://www.blc.lsbu.ac.uk/eservices/Module1/Graphics/PF3.gif)
 
 	Syntax
 	EnergyBoard.ReactivePower(char phase);
@@ -112,7 +112,7 @@ current results. Offsets applied to RMS current will affect apparent power resul
 The apparent power, also referred as Volt-Amps, is the product of low rate RMS voltage 
 and current results. Offsets applied to RMS current will affect apparent power results.
 
-![Cos Fi](http://www.stampolampo.it/public/image/CosFi1.jpg)  
+![Cos Fi](http://www.practicalmachinist.com/vb/attachments/f11/35192d1307402684-calc-power-consumption-elect-meter-power-triangle.jpg)  
 `V : Voltage`  
 `I : Current`  
 
