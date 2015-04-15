@@ -82,7 +82,7 @@ of current and the instantaneous quadrature voltage.
 	Example
 	Float ReactivePower_R = EnergyBoard.ReactivePower('R');
 
-## ApparentPower Power
+## Apparent Power
 
 The apparent power, also referred as Volt-Amps, is the product of low rate RMS voltage and 
 current results. Offsets applied to RMS current will affect apparent power results.
@@ -94,15 +94,41 @@ current results. Offsets applied to RMS current will affect apparent power resul
 	phase : Phase of power (char) for example 'R', 'S', 'T'
 	
 	Returns
-	ApparentPower Power value in float data type
+	Apparent Power value in float data type
 	
 	Example
 	Float ApparentPower_R = EnergyBoard.ApparentPower('R');
   
-| Data Type | Function                    | Description                               |
-|-----------|-----------------------------|-------------------------------------------|
-| float     | PowerFactor(char phase);	  | Read Power Factor at selected phase       |
-| float     | Frequency(void);			  | Read Frequency of system                  |
+## PowerFactor (Cosfi)
+
+The apparent power, also referred as Volt-Amps, is the product of low rate RMS voltage 
+and current results. Offsets applied to RMS current will affect apparent power results.
+
+	Syntax
+	EnergyBoard.PowerFactor(char phase);
+	
+	Parameters
+	phase : Phase of power factor (char) for example 'R', 'S', 'T'
+	
+	Returns
+	PowerFactor value in float data type
+	
+	Example
+	Float PowerFactor_R = EnergyBoard.PowerFactor('R');
+
+## Frequency
+
+	Syntax
+	EnergyBoard.Frequency(char phase);
+	
+	Parameters
+	None
+	
+	Returns
+	Frequency value in float data type
+	
+	Example
+	Float Frequency = EnergyBoard.Frequency();
 
 ## Licences
 
