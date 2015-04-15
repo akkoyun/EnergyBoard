@@ -17,7 +17,7 @@ In this Arduino Library we can read all data of energy parameters.
 | float     | PowerFactor(char phase);	  | Read Power Factor at selected phase       |
 | float     | Frequency(void);			  | Read Frequency of system                  |
 
-### Licences
+## Licences
 
 All source code is licensed under the [MIT License](http://opensource.org/licenses/MIT)
 
