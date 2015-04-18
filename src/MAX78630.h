@@ -3,13 +3,13 @@
  *  Copyright (C) 2014-2015 X2Bus (info@x2bus.com)
  *  Can not be copied and/or distributed without the express permission of X2Bus
  *
- *	The library is compatable with Arduino and the Open Hardware Community.
+ *  The library is compatable with Arduino and the Open Hardware Community.
  *
- *  Library		: X2Bus Energy Board (MAX78630)
+ *  Library	: X2Bus Energy Board (MAX78630)
  *  Developer	: Mehmet Gunce Akkoyun (gunce.akkoyun@x2bus.com)
- *  GitHub		: https://github.com/x2bus/EnergyBoard
+ *  GitHub	: https://github.com/x2bus/EnergyBoard
  *  Revision	: 1.0.1
- *	Relase		: April 2015
+ *  Relase	: April 2015
  *
  *********************************************************************************/
 
