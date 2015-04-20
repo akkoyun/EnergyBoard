@@ -165,3 +165,11 @@ All source code is licensed under the [MIT License](http://opensource.org/licens
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
+
+## Version History
+**1.0.2**  
+* IC Startup commands converted to HEX format.
+* Voltage commands converted to HEX format.
+* CommandSend function commands converted to HEX format.
+* 'print' functions converted to 'write'
+* Checksum equation converted to HEX
