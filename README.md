@@ -9,6 +9,8 @@
 	
 	In this Arduino Library we can read all data of energy parameters.
 
+![EB_Block](https://github.com/x2bus/EnergyBoard/blob/master/extras/EnergyBoard_Blok.jpg?raw=true)
+
 ## RMS Voltage
 
 The EnergyBoard reports true RMS measurements for each input. An RMS value is 
