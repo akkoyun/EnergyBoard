@@ -8,7 +8,7 @@
  *  Library	: X2Bus Energy Board (MAX78630)
  *  Developer	: Mehmet Gunce Akkoyun (gunce.akkoyun@x2bus.com)
  *  GitHub	: https://github.com/x2bus/EnergyBoard
- *  Revision	: 1.0.2
+ *  Revision	: 1.1.0
  *  Relase	: April 2015
  *
  *********************************************************************************/
@@ -32,19 +32,38 @@ class MAX78630
 {
 public:
 	MAX78630(int Gain);												// Start MAX78630 Startup Parameters
-	float Voltage(char phase);										// Read Voltage at selected phase
-	float Current(char phase);										// Read Current at selected phase
+	float RMS_Voltage(char phase);									// Read RMS Voltage at selected phase
+	float RMS_Voltage_AVR();										// Read RMS Voltage avarage
+	float INST_Voltage(char phase);									// Read Instantaneous Voltage at selected phase
+	float FUN_Voltage(char phase);									// Read Fundamental Voltage at selected phase
+	float HARM_Voltage(char phase);									// Read Harmonic Voltage at selected phase
+	float RMS_Voltage_MIN();										// Read RMS Voltage Mın Limit
+	float RMS_Voltage_MAX();										// Read RMS Voltage Max Limit
+	float RMS_Current(char phase);									// Read RMS Current at selected phase
+	float RMS_Current_AVR();										// Read RMS Current Avarage
+	float PEAK_Current(char phase);									// Read Peak Current at selected phase
+	float INST_Current(char phase);									// Read Instantaneous Current at selected phase
+	float FUN_Current(char phase);									// Read Fundamental Current at selected phase
+	float HARM_Current(char phase);									// Read Harmonic Current at selected phase
+	float RMS_Current_MAX();										// Read RMS Current Max Limit
 	float ActivePower(char phase);									// Read Active Power at selected phase
-	float ReactivePower(char phase);								// Read Re Active Power at selected phase
+	float ActivePower_AVR();										// Read Active Power Avarage
+	float ReActivePower(char phase);								// Read ReActive Power at selected phase
+	float ReActivePower_AVR();										// Read ReActive Power Avarage
 	float ApparentPower(char phase);								// Read Apparent Power at selected phase
+	float ApparentPower_AVR();										// Read ApparentPower Power Avarage
+	float FundamentalPower(char phase);								// Read Fundamental Power at selected phase
+	float HarmonicPower(char phase);								// Read Harmonic Power at selected phase
+	float FundamentalVA(char phase);								// Read Fundamental Volt Amper at selected phase
 	float PowerFactor(char phase);									// Read Power Factor at selected phase
+	float PowerFactor_AVR();										// Read Power Factor Avarage
 	float Frequency(void);											// Read Frequency of system
     float Temperature(void);                                        // Chip Temperature
 private:
 	bool ClearBuffer(void);											// Clear Serial Buffer Function (internal)
     bool SendCommand(int CHR1, int CHR2);                           // Send Command
 
-    int MAX78630_Gain;												// Gain Variable
+    bool MAX78630_Gain;												// Gain Variable
 };
 
 #endif /* defined(__MAX78630__) */

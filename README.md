@@ -11,136 +11,65 @@
 
 ![EB_Block](https://github.com/x2bus/EnergyBoard/blob/master/extras/EnergyBoard_Blok.jpg?raw=true)
 
-## RMS Voltage
+## Functions
 
-The EnergyBoard reports true RMS measurements for each input. An RMS value is 
-obtained by performing the sum of the squares of instantaneous values over a time 
-interval (accumulation interval) and then performing a square root of the result 
-after dividing by the number of samples in the interval.
+* float RMS_Voltage(char phase);
+* float RMS_Voltage_AVR();
+* float INST_Voltage(char phase);
+* float FUN_Voltage(char phase);
+* float HARM_Voltage(char phase);
+* float RMS_Voltage_MIN();
+* float RMS_Voltage_MAX();
+* float RMS_Current(char phase);
+* float RMS_Current_AVR();
+* float PEAK_Current(char phase);
+* float INST_Current(char phase);
+* float FUN_Current(char phase);
+* float HARM_Current(char phase);
+* float RMS_Current_MAX();
+* float ActivePower(char phase);
+* float ActivePower_AVR();
+* float ReActivePower(char phase);
+* float ReActivePower_AVR();
+* float ApparentPower(char phase);
+* float ApparentPower_AVR();
+* float FundamentalPower(char phase);
+* float HarmonicPower(char phase);
+* float FundamentalVA(char phase);
+* float PowerFactor(char phase);
+* float PowerFactor_AVR();
+* float Frequency(void);
+* float Temperature(void);
 
-![RMS Voltage](http://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Sine_wave_voltages.svg/530px-Sine_wave_voltages.svg.png)  
-`Vrms : Root Mean Square of Voltage`  
-`Vpk : Peak Voltage`  
-`Vpp : Peak to Peak Voltage`  
-	
-	Syntax
-	EnergyBoard.Voltage(char phase);
-	
-	Parameters
-	phase : Phase of voltage (char) for example 'R', 'S', 'T'
-	
-	Returns
-	Voltage value in float data type
-	
-	Example
-	Float Voltage_R = EnergyBoard.Voltage('R');
-	
-## RMS Current
+## Example
 
-The EnergyBoard reports true RMS measurements for current inputs. The RMS current is 
-obtained by performing the sum of the squares of the instantaneous voltage samples 
-over the accumulation interval and then performing a square root of the result after 
-dividing by the number of samples in the interval.
-
-	Syntax
-	EnergyBoard.Current(char phase);
-	
-	Parameters
-	phase : Phase of current (char) for example 'R', 'S', 'T'
-	
-	Returns
-	Current value in float data type
-	
-	Example
-	Float Current_R = EnergyBoard.Current('R');
-
-## Active Power
-
-The instantaneous power results (PA, PB, PC) are obtained by multiplying aligned instantaneous 
-voltage and current samples.
-
-![Active Power](http://www.electronics-tutorials.ws/accircuits/acp29.gif?74587b)
-
-	Syntax
-	EnergyBoard.ActivePower(char phase);
-	
-	Parameters
-	phase : Phase of power (char) for example 'R', 'S', 'T'
-	
-	Returns
-	Active Power value in float data type
-	
-	Example
-	Float ActivePower_R = EnergyBoard.ActivePower('R');
-
-## ReActive Power
-
-Instantaneous reactive power results are calculated by multiplying the instantaneous samples 
-of current and the instantaneous quadrature voltage. 
-
-![ReActive Power](http://www.blc.lsbu.ac.uk/eservices/Module1/Graphics/PF3.gif)
-
-	Syntax
-	EnergyBoard.ReactivePower(char phase);
-	
-	Parameters
-	phase : Phase of power (char) for example 'R', 'S', 'T'
-	
-	Returns
-	ReActive Power value in float data type
-	
-	Example
-	Float ReactivePower_R = EnergyBoard.ReactivePower('R');
-
-## Apparent Power
-
-The apparent power, also referred as Volt-Amps, is the product of low rate RMS voltage and 
-current results. Offsets applied to RMS current will affect apparent power results.
-
-	Syntax
-	EnergyBoard.ApparentPower(char phase);
-	
-	Parameters
-	phase : Phase of power (char) for example 'R', 'S', 'T'
-	
-	Returns
-	Apparent Power value in float data type
-	
-	Example
-	Float ApparentPower_R = EnergyBoard.ApparentPower('R');
-  
-## PowerFactor (Cosfi)
-
-The apparent power, also referred as Volt-Amps, is the product of low rate RMS voltage 
-and current results. Offsets applied to RMS current will affect apparent power results.
-
-![Cos Fi](http://www.practicalmachinist.com/vb/attachments/f11/35192d1307402684-calc-power-consumption-elect-meter-power-triangle.jpg)  
-
-	Syntax
-	EnergyBoard.PowerFactor(char phase);
-	
-	Parameters
-	phase : Phase of power factor (char) for example 'R', 'S', 'T'
-	
-	Returns
-	PowerFactor value in float data type
-	
-	Example
-	Float PowerFactor_R = EnergyBoard.PowerFactor('R');
-
-## Frequency
-
-	Syntax
-	EnergyBoard.Frequency(char phase);
-	
-	Parameters
-	None
-	
-	Returns
-	Frequency value in float data type
-	
-	Example
-	Float Frequency = EnergyBoard.Frequency();
+	RMS Voltage : 230.51 V
+	RMS Voltage Avarage : 71.68 V
+	Instantaneous Voltage : 311.41 V
+	Fundamental Voltage : 230.51 V
+	Harmonic Voltage : 0.00 V
+	RMS Voltage MIN Limit : 0.00 V
+	RMS Voltage MAX Limit : 660.81 V
+	RMS Current : 0.40 A
+	RMS Current Avarege: 0.14 A
+	PEAK Current : 1.27 A
+	Instantaneous Current : 99.57 A
+	Fundamental Current : -0.14 A
+	Harmonic Current : -0.08 A
+	RMS Current MAX Limit : 49.61 A
+	Active Power : 55.97 W
+	Active Power Avarage : 18.65 W
+	ReActive Power : 11.59 VAR
+	ReActive Power Avarage : 3.78 VAR
+	Apparent Power : 92.73 VA
+	Apparent Power Avarage : 30.90 VA
+	Fundamental Power : 56.63 W
+	Harmonic Power : 0.67 W
+	Fundamental Volt Amper : 57.80 VA
+	Power Factor : 0.59 
+	Power Factor Avarage : 0.59 
+	Frequency : 49.00 Hz
+	IC Temperature : 18.12 C
 
 ## Licences
 
@@ -167,6 +96,38 @@ All source code is licensed under the [MIT License](http://opensource.org/licens
 	THE SOFTWARE.
 
 ## Version History
+
+**1.1.0**
+* Error variables added, -1001: Without Data, -1002: Negative Acknowledge, -1003: Command not implemented, -1004: Checksum failed
+* Voltage function deployment.
+* Voltage function name changed to RMS_Voltage
+* New voltage function added INST_Voltage (Per Phase)
+* New voltage function added RMS_Voltage_AVR
+* New voltage function added FUN_Voltage (Per Phase)
+* New voltage function added HARM_Voltage (Per Phase)
+* New function added RMS_Voltage_MIN
+* New function added RMS_Voltage_MAX
+* Current function deployment.
+* Current function name changed to RMS_Current (Per Phase)
+* New Current function added RMS_Current_AVR
+* New Current function added PEAK_Current (Per Phase)
+* New Current function added INST_Current (Per Phase)
+* New Current function added FUN_Current (Per Phase)
+* New Current function added HARM_Current (Per Phase)
+* New Current function added RMS_Current_MAX
+* ActivePower function deployment. (Per Phase)
+* New Current function added ActivePower_AVR
+* ReActivePower function deployment. (Per Phase)
+* New Current function added ReActivePower_AVR
+* ApparentPower function deployment. (Per Phase)
+* New Current function added ApparentPower_AVR
+* New Current function added FundamentalPower (Per Phase)
+* New Current function added HarmonicPower (Per Phase)
+* New Current function added FundamentalVA (Per Phase)
+* PowerFactor function deployment. (Per Phase)
+* New Current function added PowerFactor_AVR
+* Frequency function deployment.
+* Temperature function deployment.
 **1.0.2**  
 * IC Startup commands converted to HEX format.
 * Voltage commands converted to HEX format.
