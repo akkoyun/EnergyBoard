@@ -33,149 +33,71 @@ coils, and resistive shunts.
 In this Arduino Library we can read all data of energy parameters.
 </code></pre>
 
-<h2>
-<a id="rms-voltage" class="anchor" href="#rms-voltage" aria-hidden="true"><span class="octicon octicon-link"></span></a>RMS Voltage</h2>
-
-<p>The EnergyBoard reports true RMS measurements for each input. An RMS value is 
-obtained by performing the sum of the squares of instantaneous values over a time 
-interval (accumulation interval) and then performing a square root of the result 
-after dividing by the number of samples in the interval.</p>
-
-<p><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Sine_wave_voltages.svg/530px-Sine_wave_voltages.svg.png" alt="RMS Voltage"><br>
-<code>Vrms : Root Mean Square of Voltage</code><br>
-<code>Vpk : Peak Voltage</code><br>
-<code>Vpp : Peak to Peak Voltage</code>  </p>
-
-<pre><code>Syntax
-EnergyBoard.Voltage(char phase);
-
-Parameters
-phase : Phase of voltage (char) for example 'R', 'S', 'T'
-
-Returns
-Voltage value in float data type
-
-Example
-Float Voltage_R = EnergyBoard.Voltage('R');
-</code></pre>
+<p><img src="https://github.com/x2bus/EnergyBoard/blob/master/extras/EnergyBoard_Blok.jpg?raw=true" alt="EB_Block"></p>
 
 <h2>
-<a id="rms-current" class="anchor" href="#rms-current" aria-hidden="true"><span class="octicon octicon-link"></span></a>RMS Current</h2>
+<a id="functions" class="anchor" href="#functions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Functions</h2>
 
-<p>The EnergyBoard reports true RMS measurements for current inputs. The RMS current is 
-obtained by performing the sum of the squares of the instantaneous voltage samples 
-over the accumulation interval and then performing a square root of the result after 
-dividing by the number of samples in the interval.</p>
-
-<pre><code>Syntax
-EnergyBoard.Current(char phase);
-
-Parameters
-phase : Phase of current (char) for example 'R', 'S', 'T'
-
-Returns
-Current value in float data type
-
-Example
-Float Current_R = EnergyBoard.Current('R');
-</code></pre>
-
-<h2>
-<a id="active-power" class="anchor" href="#active-power" aria-hidden="true"><span class="octicon octicon-link"></span></a>Active Power</h2>
-
-<p>The instantaneous power results (PA, PB, PC) are obtained by multiplying aligned instantaneous 
-voltage and current samples.</p>
-
-<p><img src="http://www.electronics-tutorials.ws/accircuits/acp29.gif?74587b" alt="Active Power"></p>
-
-<pre><code>Syntax
-EnergyBoard.ActivePower(char phase);
-
-Parameters
-phase : Phase of power (char) for example 'R', 'S', 'T'
-
-Returns
-Active Power value in float data type
-
-Example
-Float ActivePower_R = EnergyBoard.ActivePower('R');
-</code></pre>
+<ul>
+<li>float RMS_Voltage(char phase);</li>
+<li>float RMS_Voltage_AVR();</li>
+<li>float INST_Voltage(char phase);</li>
+<li>float FUN_Voltage(char phase);</li>
+<li>float HARM_Voltage(char phase);</li>
+<li>float RMS_Voltage_MIN();</li>
+<li>float RMS_Voltage_MAX();</li>
+<li>float RMS_Current(char phase);</li>
+<li>float RMS_Current_AVR();</li>
+<li>float PEAK_Current(char phase);</li>
+<li>float INST_Current(char phase);</li>
+<li>float FUN_Current(char phase);</li>
+<li>float HARM_Current(char phase);</li>
+<li>float RMS_Current_MAX();</li>
+<li>float ActivePower(char phase);</li>
+<li>float ActivePower_AVR();</li>
+<li>float ReActivePower(char phase);</li>
+<li>float ReActivePower_AVR();</li>
+<li>float ApparentPower(char phase);</li>
+<li>float ApparentPower_AVR();</li>
+<li>float FundamentalPower(char phase);</li>
+<li>float HarmonicPower(char phase);</li>
+<li>float FundamentalVA(char phase);</li>
+<li>float PowerFactor(char phase);</li>
+<li>float PowerFactor_AVR();</li>
+<li>float Frequency(void);</li>
+<li>float Temperature(void);</li>
+</ul>
 
 <h2>
-<a id="reactive-power" class="anchor" href="#reactive-power" aria-hidden="true"><span class="octicon octicon-link"></span></a>ReActive Power</h2>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h2>
 
-<p>Instantaneous reactive power results are calculated by multiplying the instantaneous samples 
-of current and the instantaneous quadrature voltage. </p>
-
-<p><img src="http://www.blc.lsbu.ac.uk/eservices/Module1/Graphics/PF3.gif" alt="ReActive Power"></p>
-
-<pre><code>Syntax
-EnergyBoard.ReactivePower(char phase);
-
-Parameters
-phase : Phase of power (char) for example 'R', 'S', 'T'
-
-Returns
-ReActive Power value in float data type
-
-Example
-Float ReactivePower_R = EnergyBoard.ReactivePower('R');
-</code></pre>
-
-<h2>
-<a id="apparent-power" class="anchor" href="#apparent-power" aria-hidden="true"><span class="octicon octicon-link"></span></a>Apparent Power</h2>
-
-<p>The apparent power, also referred as Volt-Amps, is the product of low rate RMS voltage and 
-current results. Offsets applied to RMS current will affect apparent power results.</p>
-
-<pre><code>Syntax
-EnergyBoard.ApparentPower(char phase);
-
-Parameters
-phase : Phase of power (char) for example 'R', 'S', 'T'
-
-Returns
-Apparent Power value in float data type
-
-Example
-Float ApparentPower_R = EnergyBoard.ApparentPower('R');
-</code></pre>
-
-<h2>
-<a id="powerfactor-cosfi" class="anchor" href="#powerfactor-cosfi" aria-hidden="true"><span class="octicon octicon-link"></span></a>PowerFactor (Cosfi)</h2>
-
-<p>The apparent power, also referred as Volt-Amps, is the product of low rate RMS voltage 
-and current results. Offsets applied to RMS current will affect apparent power results.</p>
-
-<p><img src="http://www.practicalmachinist.com/vb/attachments/f11/35192d1307402684-calc-power-consumption-elect-meter-power-triangle.jpg" alt="Cos Fi">  </p>
-
-<pre><code>Syntax
-EnergyBoard.PowerFactor(char phase);
-
-Parameters
-phase : Phase of power factor (char) for example 'R', 'S', 'T'
-
-Returns
-PowerFactor value in float data type
-
-Example
-Float PowerFactor_R = EnergyBoard.PowerFactor('R');
-</code></pre>
-
-<h2>
-<a id="frequency" class="anchor" href="#frequency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Frequency</h2>
-
-<pre><code>Syntax
-EnergyBoard.Frequency(char phase);
-
-Parameters
-None
-
-Returns
-Frequency value in float data type
-
-Example
-Float Frequency = EnergyBoard.Frequency();
+<pre><code>RMS Voltage : 230.51 V
+RMS Voltage Avarage : 71.68 V
+Instantaneous Voltage : 311.41 V
+Fundamental Voltage : 230.51 V
+Harmonic Voltage : 0.00 V
+RMS Voltage MIN Limit : 0.00 V
+RMS Voltage MAX Limit : 660.81 V
+RMS Current : 0.40 A
+RMS Current Avarege: 0.14 A
+PEAK Current : 1.27 A
+Instantaneous Current : 99.57 A
+Fundamental Current : -0.14 A
+Harmonic Current : -0.08 A
+RMS Current MAX Limit : 49.61 A
+Active Power : 55.97 W
+Active Power Avarage : 18.65 W
+ReActive Power : 11.59 VAR
+ReActive Power Avarage : 3.78 VAR
+Apparent Power : 92.73 VA
+Apparent Power Avarage : 30.90 VA
+Fundamental Power : 56.63 W
+Harmonic Power : 0.67 W
+Fundamental Volt Amper : 57.80 VA
+Power Factor : 0.59 
+Power Factor Avarage : 0.59 
+Frequency : 49.00 Hz
+IC Temperature : 18.12 C
 </code></pre>
 
 <h2>
@@ -203,6 +125,54 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 </code></pre>
+
+<h2>
+<a id="version-history" class="anchor" href="#version-history" aria-hidden="true"><span class="octicon octicon-link"></span></a>Version History</h2>
+
+<p><strong>1.1.0</strong></p>
+
+<ul>
+<li>Error variables added, -1001: Without Data, -1002: Negative Acknowledge, -1003: Command not implemented, -1004: Checksum failed</li>
+<li>Voltage function deployment.</li>
+<li>Voltage function name changed to RMS_Voltage</li>
+<li>New voltage function added INST_Voltage (Per Phase)</li>
+<li>New voltage function added RMS_Voltage_AVR</li>
+<li>New voltage function added FUN_Voltage (Per Phase)</li>
+<li>New voltage function added HARM_Voltage (Per Phase)</li>
+<li>New function added RMS_Voltage_MIN</li>
+<li>New function added RMS_Voltage_MAX</li>
+<li>Current function deployment.</li>
+<li>Current function name changed to RMS_Current (Per Phase)</li>
+<li>New Current function added RMS_Current_AVR</li>
+<li>New Current function added PEAK_Current (Per Phase)</li>
+<li>New Current function added INST_Current (Per Phase)</li>
+<li>New Current function added FUN_Current (Per Phase)</li>
+<li>New Current function added HARM_Current (Per Phase)</li>
+<li>New Current function added RMS_Current_MAX</li>
+<li>ActivePower function deployment. (Per Phase)</li>
+<li>New Current function added ActivePower_AVR</li>
+<li>ReActivePower function deployment. (Per Phase)</li>
+<li>New Current function added ReActivePower_AVR</li>
+<li>ApparentPower function deployment. (Per Phase)</li>
+<li>New Current function added ApparentPower_AVR</li>
+<li>New Current function added FundamentalPower (Per Phase)</li>
+<li>New Current function added HarmonicPower (Per Phase)</li>
+<li>New Current function added FundamentalVA (Per Phase)</li>
+<li>PowerFactor function deployment. (Per Phase)</li>
+<li>New Current function added PowerFactor_AVR</li>
+<li>Frequency function deployment.</li>
+<li>Temperature function deployment.</li>
+</ul>
+
+<p><strong>1.0.2</strong>  </p>
+
+<ul>
+<li>IC Startup commands converted to HEX format.</li>
+<li>Voltage commands converted to HEX format.</li>
+<li>CommandSend function commands converted to HEX format.</li>
+<li>'print' functions converted to 'write'</li>
+<li>Checksum equation converted to HEX</li>
+</ul>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/x2bus/EnergyBoard">X2Bus Energyboard</a> is maintained by <a href="https://github.com/x2bus">x2bus</a>.</span>
