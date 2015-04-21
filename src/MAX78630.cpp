@@ -59,10 +59,20 @@ MAX78630::MAX78630(int Gain) {
     MAX_Serial.begin(Serial_BoudRate);
     ClearBuffer();
     MAX_Serial.write(0xAA);	// Header (0xAA)
-    MAX_Serial.write(0x04);		// Total Sended Byte (0x04)
+    MAX_Serial.write(0x04);	// Total Sended Byte (0x04)
     MAX_Serial.write(0xC4);	// Setting Command (0xC4)
     MAX_Serial.write(0x8E);	// CheckSum (0x8E)
-    MAX_Serial.end();
+
+	delay(10);
+	ClearBuffer();
+	MAX_Serial.write(0xAA);	// Header (0xAA)
+	MAX_Serial.write(0x06);	// Total Sended Byte (0x04)
+	MAX_Serial.write(0xCA);	// Setting Command (0xC4)
+	MAX_Serial.write(0x65);	// Setting Command (0xC4)
+	MAX_Serial.write(0xFF);	// Setting Command (0xC4)
+	MAX_Serial.write(0x22);	// CheckSum (0x8E)
+
+	MAX_Serial.end();
     
     if (Gain != 0) MAX78630_Gain = true;
 }
