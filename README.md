@@ -128,6 +128,7 @@ All source code is licensed under the [MIT License](http://opensource.org/licens
 * New Current function added PowerFactor_AVR
 * Frequency function deployment.
 * Temperature function deployment.
+  
 **1.0.2**  
 * IC Startup commands converted to HEX format.
 * Voltage commands converted to HEX format.
