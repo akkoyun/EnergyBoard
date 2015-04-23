@@ -98,6 +98,8 @@ All source code is licensed under the [MIT License](http://opensource.org/licens
 	THE SOFTWARE.
 
 ## Version History
+**1.2.0**
+* initial update
 
 **1.1.0**
 * Error variables added, -1001: Without Data, -1002: Negative Acknowledge, -1003: Command not implemented, -1004: Checksum failed
