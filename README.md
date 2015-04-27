@@ -1,15 +1,15 @@
 ![EnergyBoard](https://github.com/x2bus/EnergyBoard/blob/master/extras/Energy_Board_Logo.png?raw=true)
 
 ## Description
-> The EnergyBoard is an energy measurement processor for polyphase power-monitoring 
-systems. It is designed for real-time monitoring for a variety of typical three-phase 
-configurations in industrial applications. The MAX78630 provides up to six analog 
-inputs for interfacing to voltage and current sensors. Scaled voltages from the 
-sensors are fed to the single converter front-end using a high-resolution delta-sigma 
-converter. Supported current sensors include current transformers (CTs), Rogowski 
-coils, and resistive shunts.  
->
-> In this Arduino Library we can read all data of energy parameters.
+	The EnergyBoard is an energy measurement processor for polyphase power-monitoring 
+	systems. It is designed for real-time monitoring for a variety of typical three-phase 
+	configurations in industrial applications. The MAX78630 provides up to six analog 
+	inputs for interfacing to voltage and current sensors. Scaled voltages from the 
+	sensors are fed to the single converter front-end using a high-resolution delta-sigma 
+	converter. Supported current sensors include current transformers (CTs), Rogowski 
+	coils, and resistive shunts.  
+	
+	In this Arduino Library we can read all data of energy parameters.
 
 ## Block Diagram
 ![EB_Block](https://github.com/x2bus/EnergyBoard/blob/master/extras/EnergyBoard_Blok.jpg?raw=true)
