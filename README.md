@@ -11,6 +11,7 @@ coils, and resistive shunts.
 >
 > In this Arduino Library we can read all data of energy parameters.
 
+## Block Diagram
 ![EB_Block](https://github.com/x2bus/EnergyBoard/blob/master/extras/EnergyBoard_Blok.jpg?raw=true)
 
 ## Functions
