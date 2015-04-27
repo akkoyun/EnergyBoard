@@ -1,3 +1,5 @@
+![EnergyBoard](https://github.com/x2bus/EnergyBoard/blob/master/extras/Energy_Board_Logo.png?raw=true)
+
 ## Description
 > The EnergyBoard is an energy measurement processor for polyphase power-monitoring 
 systems. It is designed for real-time monitoring for a variety of typical three-phase 
