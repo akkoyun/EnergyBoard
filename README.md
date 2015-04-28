@@ -101,6 +101,10 @@ All source code is licensed under the [MIT License](http://opensource.org/licens
 	THE SOFTWARE.
 
 ## Version History
+**2.0.0**
+* Library name changed
+* Function names changed
+
 **1.2.0**
 * initial update
 

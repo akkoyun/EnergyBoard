@@ -5,18 +5,18 @@
  *
  *  The library is compatable with Arduino and the Open Hardware Community.
  *
- *  Library	: X2Bus Energy Board (MAX78630)
+ *  Library     : X2Bus Energy Board (MAX78630)
  *  Developer	: Mehmet Gunce Akkoyun (gunce.akkoyun@x2bus.com)
- *  GitHub	: https://github.com/x2bus/EnergyBoard
- *  Revision	: 1.1.0
- *  Relase	: April 2015
+ *  GitHub      : https://github.com/x2bus/EnergyBoard
+ *  Revision	: 2.0.0
+ *  Relase      : April 2015
  *
  *********************************************************************************/
 
 #include "Arduino.h"
-#include "MAX78630.h"
+#include "EnergyBoard.h"
 
-#define MAX_Serial Serial2	 // Define EnergyBoard Serial
+#define EnergyBoard_Serial Serial2	 // Define EnergyBoard Serial
 
 /*
 	MAX78630 Serial Comminication Read Values Structure
@@ -54,32 +54,34 @@
 	Frequency = MAX78630::Frequency();
  */
 
-MAX78630::MAX78630(int Gain) {
+EnergyBoard::EnergyBoard(int Gain_) {
     
-    MAX_Serial.begin(Serial_BoudRate);
+    EnergyBoard_Serial.begin(BoudRate);
+
     ClearBuffer();
-    MAX_Serial.write(0xAA);	// Header (0xAA)
-    MAX_Serial.write(0x04);	// Total Sended Byte (0x04)
-    MAX_Serial.write(0xC4);	// Setting Command (0xC4)
-    MAX_Serial.write(0x8E);	// CheckSum (0x8E)
+    EnergyBoard_Serial.write(0xAA);	// Header (0xAA)
+    EnergyBoard_Serial.write(0x04);	// Total Sended Byte (0x04)
+    EnergyBoard_Serial.write(0xC4);	// Setting Command (0xC4)
+    EnergyBoard_Serial.write(0x8E);	// CheckSum (0x8E)
 
 	delay(10);
 	ClearBuffer();
-	MAX_Serial.write(0xAA);	// Header (0xAA)
-	MAX_Serial.write(0x06);	// Total Sended Byte (0x04)
-	MAX_Serial.write(0xCA);	// Setting Command (0xC4)
-	MAX_Serial.write(0x65);	// Setting Command (0xC4)
-	MAX_Serial.write(0xFF);	// Setting Command (0xC4)
-	MAX_Serial.write(0x22);	// CheckSum (0x8E)
+	EnergyBoard_Serial.write(0xAA);	// Header (0xAA)
+	EnergyBoard_Serial.write(0x06);	// Total Sended Byte (0x04)
+	EnergyBoard_Serial.write(0xCA);	// Setting Command (0xC4)
+	EnergyBoard_Serial.write(0x65);	// Setting Command (0xC4)
+	EnergyBoard_Serial.write(0xFF);	// Setting Command (0xC4)
+	EnergyBoard_Serial.write(0x22);	// CheckSum (0x8E)
 
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
     
-    if (Gain != 0) MAX78630_Gain = true;
+    if (Gain_ != 0) Gain = true;
 }
 
-float MAX78630::RMS_Voltage(char Phase) {
+// Voltage Functions
+float EnergyBoard::Voltage_RMS(char Phase) {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float Voltage_ = 0;
@@ -91,14 +93,14 @@ float MAX78630::RMS_Voltage(char Phase) {
 	if (Phase == 'T') SendCommand(0x96,0x00); // RMS Voltage Phase T = 0xAA,0x07,0xA3,0x96,0x00,0xE3,0x33
 	// --------------------------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -117,17 +119,17 @@ float MAX78630::RMS_Voltage(char Phase) {
 			Voltage_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain) {
-			Voltage_ = Voltage_ * MAX78630_Voltage_Gain;
+		if (Gain) {
+			Voltage_ = Voltage_ * Voltage_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return Voltage_;
 }
-float MAX78630::RMS_Voltage_AVR() {
+float EnergyBoard::Voltage_RMS_Average() {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float Voltage_ = 0;
@@ -137,14 +139,14 @@ float MAX78630::RMS_Voltage_AVR() {
 	SendCommand(0x99,0x00); // RMS Voltage Avarage = 0xAA,0x07,0xA3,0x99,0x00,0xE3,0x39
 	// --------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -163,17 +165,17 @@ float MAX78630::RMS_Voltage_AVR() {
 			Voltage_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain) {
-			Voltage_ = Voltage_ * MAX78630_Voltage_Gain;
+		if (Gain) {
+			Voltage_ = Voltage_ * Voltage_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return Voltage_;
 }
-float MAX78630::INST_Voltage(char Phase) {
+float EnergyBoard::Voltage_Instantaneous(char Phase) {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float Voltage_ = 0;
@@ -185,14 +187,14 @@ float MAX78630::INST_Voltage(char Phase) {
 	if (Phase == 'T') SendCommand(0x8D,0x00); // Instantaneous Voltage Phase T = 0xAA,0x07,0xA3,0x8D,0x00,0xE3,0x33
 	// ------------------------------------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -211,17 +213,17 @@ float MAX78630::INST_Voltage(char Phase) {
 			Voltage_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain) {
-			Voltage_ = Voltage_ * MAX78630_Voltage_Gain;
+		if (Gain) {
+			Voltage_ = Voltage_ * Voltage_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return Voltage_;
 }
-float MAX78630::FUN_Voltage(char Phase) {
+float EnergyBoard::Voltage_Fundamental(char Phase) {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float Voltage_ = 0;
@@ -233,14 +235,14 @@ float MAX78630::FUN_Voltage(char Phase) {
 	if (Phase == 'T') SendCommand(0xA2,0x00); // Fundamental Voltage Phase T = 0xAA,0x07,0xA3,0x96,0x00,0xE3,0x33
 	// ----------------------------------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -259,17 +261,17 @@ float MAX78630::FUN_Voltage(char Phase) {
 			Voltage_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain) {
-			Voltage_ = Voltage_ * MAX78630_Voltage_Gain;
+		if (Gain) {
+			Voltage_ = Voltage_ * Voltage_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return Voltage_;
 }
-float MAX78630::HARM_Voltage(char Phase) {
+float EnergyBoard::Voltage_Harmonic(char Phase) {
 
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float Voltage_ = 0;
@@ -281,14 +283,14 @@ float MAX78630::HARM_Voltage(char Phase) {
 	if (Phase == 'T') SendCommand(0xAB,0x00); // Harmonic Voltage Phase T = 0xAA,0x07,0xA3,0xAB,0x00,0xE3,0x33
 	// ----------------------------------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -307,17 +309,17 @@ float MAX78630::HARM_Voltage(char Phase) {
 			Voltage_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain) {
-			Voltage_ = Voltage_ * MAX78630_Voltage_Gain;
+		if (Gain) {
+			Voltage_ = Voltage_ * Voltage_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return Voltage_;
 }
-float MAX78630::RMS_Voltage_MIN() {
+float EnergyBoard::Voltage_RMS_Alarm_Min() {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float Voltage_ = 0;
@@ -327,14 +329,14 @@ float MAX78630::RMS_Voltage_MIN() {
 	SendCommand(0xB1,0x00); // RMS Voltage MIN Limit = 0xAA,0x07,0xA3,0xB1,0x00,0xE3,0x39
 	// ----------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -353,17 +355,17 @@ float MAX78630::RMS_Voltage_MIN() {
 			Voltage_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain) {
-			Voltage_ = Voltage_ * MAX78630_Voltage_Gain;
+		if (Gain) {
+			Voltage_ = Voltage_ * Voltage_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return Voltage_;
 }
-float MAX78630::RMS_Voltage_MAX() {
+float EnergyBoard::Voltage_RMS_Alarm_Max() {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float Voltage_ = 0;
@@ -373,14 +375,14 @@ float MAX78630::RMS_Voltage_MAX() {
 	SendCommand(0xB4,0x00); // RMS Voltage MAX Limit = 0xAA,0x07,0xA3,0xB4,0x00,0xE3,0x39
 	// ----------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -399,17 +401,19 @@ float MAX78630::RMS_Voltage_MAX() {
 			Voltage_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain) {
-			Voltage_ = Voltage_ * MAX78630_Voltage_Gain;
+		if (Gain) {
+			Voltage_ = Voltage_ * Voltage_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return Voltage_;
 }
-float MAX78630::RMS_Current(char Phase) {
+
+// Current Function
+float EnergyBoard::Current_RMS(char Phase) {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float Current_ = 0;
@@ -423,44 +427,44 @@ float MAX78630::RMS_Current(char Phase) {
 		if (Phase == 'T') SendCommand(0xDB,0x00); // RMS Current Phase T = 0xAA,0x07,0xA3,0xDB,0x00,0xE3,0xEE
 		// --------------------------------------------------------------------------------------------------
 
-		if (MAX_Serial.available()) {
+		if (EnergyBoard_Serial.available()) {
 
-			byte Header					= MAX_Serial.read();
-			byte Recieved_Byte_Count	= MAX_Serial.read();
-			byte Data1					= MAX_Serial.read();
-			byte Data2					= MAX_Serial.read();
-			byte Data3					= MAX_Serial.read();
-			byte CheckSum				= MAX_Serial.read();
+			byte Header					= EnergyBoard_Serial.read();
+			byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+			byte Data1					= EnergyBoard_Serial.read();
+			byte Data2					= EnergyBoard_Serial.read();
+			byte Data3					= EnergyBoard_Serial.read();
+			byte CheckSum				= EnergyBoard_Serial.read();
 
 			// Control Recieved Data
 			if (Header == 0xAA) {
-			Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
-		} // Acknowledge with data.
+                Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
+            } // Acknowledge with data.
 			if (Header == 0xAD) {
-			Current_ = -1001;
-		} // Acknowledge without data. (Error: -1001)
+                Current_ = -1001;
+            } // Acknowledge without data. (Error: -1001)
 			if (Header == 0xB0) {
-			Current_ = -1002;
-		} // Negative Acknowledge (NACK). (Error: -1002)
+                Current_ = -1002;
+            } // Negative Acknowledge (NACK). (Error: -1002)
 			if (Header == 0xBC) {
-			Current_ = -1003;
-		} // Command not implemented. (Error: -1003)
+                Current_ = -1003;
+            } // Command not implemented. (Error: -1003)
 			if (Header == 0xBD) {
-			Current_ = -1004;
-		} // Checksum failed. (Error: -1004)
+                Current_ = -1004;
+            } // Checksum failed. (Error: -1004)
 
-			if (MAX78630_Gain == 1) {
-			Current_ = Current_ * MAX78630_Current_Gain;
-		} // Gain Correction
+			if (Gain) {
+                Current_ = Current_ * Current_Gain;
+            } // Gain Correction
 		}
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return Current_;
 }
-float MAX78630::RMS_Current_AVR() {
+float EnergyBoard::Current_RMS_Average() {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float Current_ = 0;
@@ -470,14 +474,14 @@ float MAX78630::RMS_Current_AVR() {
 	SendCommand(0xDE,0x00); // RMS Current Avarage = 0xAA,0x07,0xA3,0xDE,0x00,0xE3,0xF4
 	// --------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -496,17 +500,17 @@ float MAX78630::RMS_Current_AVR() {
 			Current_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain == 1) {
-			Current_ = Current_ * MAX78630_Current_Gain;
+		if (Gain) {
+			Current_ = Current_ * Current_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return Current_;
 }
-float MAX78630::PEAK_Current(char Phase) {
+float EnergyBoard::Current_Peak(char Phase) {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float Current_ = 0;
@@ -518,14 +522,14 @@ float MAX78630::PEAK_Current(char Phase) {
 	if (Phase == 'T') SendCommand(0xD2,0x00); // Peak Current Phase T = 0xAA,0x07,0xA3,0xD2,0x00,0xE3,0xEE
 	// ---------------------------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -544,17 +548,17 @@ float MAX78630::PEAK_Current(char Phase) {
 			Current_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain == 1) {
-			Current_ = Current_ * MAX78630_Current_Gain;
+		if (Gain) {
+			Current_ = Current_ * Current_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return Current_;
 }
-float MAX78630::INST_Current(char Phase) {
+float EnergyBoard::Current_Instantaneous(char Phase) {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float Current_ = 0;
@@ -566,14 +570,14 @@ float MAX78630::INST_Current(char Phase) {
 	if (Phase == 'T') SendCommand(0xC0,0x00); // Instantaneous Current Phase T = 0xAA,0x07,0xA3,0xC0,0x00,0xE3,0xEE
 	// ------------------------------------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -592,17 +596,17 @@ float MAX78630::INST_Current(char Phase) {
 			Current_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain == 1) {
-			Current_ = Current_ * MAX78630_Current_Gain;
+		if (Gain) {
+			Current_ = Current_ * Current_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return Current_;
 }
-float MAX78630::FUN_Current(char Phase) {
+float EnergyBoard::Current_Fundamental(char Phase) {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float Current_ = 0;
@@ -614,14 +618,14 @@ float MAX78630::FUN_Current(char Phase) {
 	if (Phase == 'T') SendCommand(0xE7,0x00); // Fundamental Current Phase T = 0xAA,0x07,0xA3,0xE7,0x00,0xE3,0xEE
 	// ----------------------------------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -640,17 +644,17 @@ float MAX78630::FUN_Current(char Phase) {
 			Current_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain == 1) {
-			Current_ = Current_ * MAX78630_Current_Gain;
+		if (Gain) {
+			Current_ = Current_ * Current_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return Current_;
 }
-float MAX78630::HARM_Current(char Phase) {
+float EnergyBoard::Current_Harmonic(char Phase) {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float Current_ = 0;
@@ -662,14 +666,14 @@ float MAX78630::HARM_Current(char Phase) {
 	if (Phase == 'T') SendCommand(0xF0,0x00); // Harmonic Current Phase T = 0xAA,0x07,0xA3,0xF0,0x00,0xE3,0xEE
 	// -------------------------------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -688,17 +692,17 @@ float MAX78630::HARM_Current(char Phase) {
 			Current_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain == 1) {
-			Current_ = Current_ * MAX78630_Current_Gain;
+		if (Gain) {
+			Current_ = Current_ * Current_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return Current_;
 }
-float MAX78630::RMS_Current_MAX() {
+float EnergyBoard::Current_RMS_Alarm_Max() {
 
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float Current_ = 0;
@@ -708,14 +712,14 @@ float MAX78630::RMS_Current_MAX() {
 	SendCommand(0xF3,0x00); // RMS Current Max Limit = 0xAA,0x07,0xA3,0xF3,0x00,0xE3,0xF4
 	// ----------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -734,17 +738,19 @@ float MAX78630::RMS_Current_MAX() {
 			Current_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain == 1) {
-			Current_ = Current_ * MAX78630_Current_Gain;
+		if (Gain) {
+			Current_ = Current_ * Current_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return Current_;
 }
-float MAX78630::ActivePower(char Phase) {
 
-	MAX_Serial.begin(Serial_BoudRate);
+// Power Functions
+float EnergyBoard::Power_Active(char Phase) {
+
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 
 	float ActivePower_ = 0;
@@ -756,14 +762,14 @@ float MAX78630::ActivePower(char Phase) {
 	if (Phase == 'T') SendCommand(0x23,0x01); // Active Power Phase T = 0xAA,0x07,0xA3,0x23,0x01,0xE3,0xEE
 	// -------------------------------------------------------------------------------------------------------
 
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -787,17 +793,17 @@ float MAX78630::ActivePower(char Phase) {
 			ActivePower_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain == 1) {
-			ActivePower_ = ActivePower_ * MAX78630_Power_Gain;
+		if (Gain) {
+			ActivePower_ = ActivePower_ * Power_Gain;
 		} // Gain Correction
 	}
 
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return ActivePower_;
 }
-float MAX78630::ActivePower_AVR() {
+float EnergyBoard::Power_Active_Average() {
 
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float ActivePower_ = 0;
@@ -807,14 +813,14 @@ float MAX78630::ActivePower_AVR() {
 	SendCommand(0x38,0x01); // Active Power Avarage = 0xAA,0x07,0xA3,0x38,0x01,0xE3,0xF4
 	// ---------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -838,17 +844,17 @@ float MAX78630::ActivePower_AVR() {
 			ActivePower_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain == 1) {
-			ActivePower_ = ActivePower_ * MAX78630_Power_Gain;
+		if (Gain) {
+			ActivePower_ = ActivePower_ * Power_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return ActivePower_;
 }
-float MAX78630::ReActivePower(char Phase) {
+float EnergyBoard::Power_Reactive(char Phase) {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float ReActivePower_ = 0;
@@ -860,14 +866,14 @@ float MAX78630::ReActivePower(char Phase) {
 	if (Phase == 'T') SendCommand(0x2C,0x01); // ReActive Power Phase T = 0xAA,0x07,0xA3,0x2C,0x01,0xE3,0xEE
 	// -----------------------------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -891,18 +897,19 @@ float MAX78630::ReActivePower(char Phase) {
 			ReActivePower_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain == 1) {
-			ReActivePower_ = ReActivePower_ * MAX78630_Power_Gain;
+		if (Gain) {
+			ReActivePower_ = ReActivePower_ * Power_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
-	if (ReActivePower_ < 0) ReActivePower_ = ReActivePower_ * -1;
+	EnergyBoard_Serial.end();
+
+    if (ReActivePower_ < 0) ReActivePower_ = ReActivePower_ * -1;
 	return ReActivePower_;
 }
-float MAX78630::ReActivePower_AVR() {
+float EnergyBoard::Power_Reactive_Average() {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float ReActivePower_ = 0;
@@ -912,14 +919,14 @@ float MAX78630::ReActivePower_AVR() {
 	SendCommand(0x3B,0x01); // ReActive Power Avarage = 0xAA,0x07,0xA3,0x38,0x01,0xE3,0xF4
 	// ---------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -943,18 +950,19 @@ float MAX78630::ReActivePower_AVR() {
 			ReActivePower_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain == 1) {
-			ReActivePower_ = ReActivePower_ * MAX78630_Power_Gain;
+		if (Gain) {
+			ReActivePower_ = ReActivePower_ * Power_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
+    
 	if (ReActivePower_ < 0) ReActivePower_ = ReActivePower_ * -1;
 	return ReActivePower_;
 }
-float MAX78630::ApparentPower(char Phase) {
+float EnergyBoard::Power_Apparent(char Phase) {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float ApparentPower_ = 0;
@@ -966,14 +974,14 @@ float MAX78630::ApparentPower(char Phase) {
 	if (Phase == 'T') SendCommand(0x35,0x01); // Apparent Power Phase T = 0xAA,0x07,0xA3,0x35,0x01,0xE3,0xEE
 	// -----------------------------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -997,18 +1005,19 @@ float MAX78630::ApparentPower(char Phase) {
 			ApparentPower_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain == 1) {
-			ApparentPower_ = ApparentPower_ * MAX78630_Power_Gain;
+		if (Gain) {
+			ApparentPower_ = ApparentPower_ * Power_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
+    
 	if (ApparentPower_ < 0) ApparentPower_ = ApparentPower_ * -1;
 	return ApparentPower_;
 }
-float MAX78630::ApparentPower_AVR() {
+float EnergyBoard::Power_Apparent_Average() {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float ApparentPower_ = 0;
@@ -1018,14 +1027,14 @@ float MAX78630::ApparentPower_AVR() {
 	SendCommand(0x3E,0x01); // Apparent Power Avarage = 0xAA,0x07,0xA3,0x3E,0x01,0xE3,0xF4
 	// ---------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -1049,18 +1058,19 @@ float MAX78630::ApparentPower_AVR() {
 			ApparentPower_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain == 1) {
-			ApparentPower_ = ApparentPower_ * MAX78630_Power_Gain;
+		if (Gain) {
+			ApparentPower_ = ApparentPower_ * Power_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
+    
 	if (ApparentPower_ < 0) ApparentPower_ = ApparentPower_ * -1;
 	return ApparentPower_;
 }
-float MAX78630::FundamentalPower(char Phase) {
+float EnergyBoard::Power_Fundamental(char Phase) {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float FundamentalPower_ = 0;
@@ -1072,14 +1082,14 @@ float MAX78630::FundamentalPower(char Phase) {
 	if (Phase == 'T') SendCommand(0x50,0x01); // Fundamental Power Phase T = 0xAA,0x07,0xA3,0x35,0x01,0xE3,0xEE
 	// -----------------------------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -1103,18 +1113,19 @@ float MAX78630::FundamentalPower(char Phase) {
 			FundamentalPower_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain == 1) {
-			FundamentalPower_ = FundamentalPower_ * MAX78630_Power_Gain;
+		if (Gain) {
+			FundamentalPower_ = FundamentalPower_ * Power_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
+    
 	if (FundamentalPower_ < 0) FundamentalPower_ = FundamentalPower_ * -1;
 	return FundamentalPower_;
 }
-float MAX78630::HarmonicPower(char Phase) {
+float EnergyBoard::Power_Harmonic(char Phase) {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float HarmonicPower_ = 0;
@@ -1126,14 +1137,14 @@ float MAX78630::HarmonicPower(char Phase) {
 	if (Phase == 'T') SendCommand(0x59,0x01); // Harmonic Power Phase T = 0xAA,0x07,0xA3,0x59,0x01,0xE3,0xEE
 	// -----------------------------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -1157,18 +1168,19 @@ float MAX78630::HarmonicPower(char Phase) {
 			HarmonicPower_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain == 1) {
-			HarmonicPower_ = HarmonicPower_ * MAX78630_Power_Gain;
+		if (Gain) {
+			HarmonicPower_ = HarmonicPower_ * Power_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
+    
 	if (HarmonicPower_ < 0) HarmonicPower_ = HarmonicPower_ * -1;
 	return HarmonicPower_;
 }
-float MAX78630::FundamentalVA(char Phase) {
+float EnergyBoard::Power_Fundamental_VA(char Phase) {
 	
-	MAX_Serial.begin(Serial_BoudRate);
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float FundamentalVA_ = 0;
@@ -1180,14 +1192,14 @@ float MAX78630::FundamentalVA(char Phase) {
 	if (Phase == 'T') SendCommand(0x62,0x01); // Fundamental VA Phase T = 0xAA,0x07,0xA3,0x59,0x01,0xE3,0xEE
 	// -----------------------------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 0xAA) {
@@ -1211,18 +1223,19 @@ float MAX78630::FundamentalVA(char Phase) {
 			FundamentalVA_ = -1004;
 		} // Checksum failed. (Error: -1004)
 		
-		if (MAX78630_Gain == 1) {
-			FundamentalVA_ = FundamentalVA_ * MAX78630_Power_Gain;
+		if (Gain) {
+			FundamentalVA_ = FundamentalVA_ * Power_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
+    
 	if (FundamentalVA_ < 0) FundamentalVA_ = FundamentalVA_ * -1;
 	return FundamentalVA_;
 }
-float MAX78630::PowerFactor(char Phase) {
-	
-	MAX_Serial.begin(Serial_BoudRate);
+float EnergyBoard::Power_Factor(char Phase) {
+
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float PowerFactor_ = 0;
@@ -1234,14 +1247,14 @@ float MAX78630::PowerFactor(char Phase) {
 	if (Phase == 'T') SendCommand(0x6B,0x01); // PowerFactor Phase T = 0xAA,0x07,0xA3,0x6B,0x01,0xE3,0x5D
 	// --------------------------------------------------------------------------------------------------
 
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 
 		// Control Recieved Data
 		if (Header == 170) {
@@ -1265,17 +1278,17 @@ float MAX78630::PowerFactor(char Phase) {
 			PowerFactor_ = -1004;
 		} // Checksum failed.
 
-		if (MAX78630_Gain == 1) {
-			PowerFactor_ = PowerFactor_ * MAX78630_Power_Factor_Gain;
+		if (Gain) {
+			PowerFactor_ = PowerFactor_ * Power_Factor_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return PowerFactor_;
 }
-float MAX78630::PowerFactor_AVR() {
-	
-	MAX_Serial.begin(Serial_BoudRate);
+float EnergyBoard::Power_Factor_Average() {
+
+	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
 	float PowerFactor_ = 0;
@@ -1285,14 +1298,14 @@ float MAX78630::PowerFactor_AVR() {
 	SendCommand(0x6E,0x01); // PowerFactor Avarage = 0xAA,0x07,0xA3,0x65,0x01,0xE3,0x63
 	// --------------------------------------------------------------------------------
 	
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 		
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
 		if (Header == 170) {
@@ -1316,17 +1329,19 @@ float MAX78630::PowerFactor_AVR() {
 			PowerFactor_ = -1004;
 		} // Checksum failed.
 		
-		if (MAX78630_Gain == 1) {
-			PowerFactor_ = PowerFactor_ * MAX78630_Power_Factor_Gain;
+		if (Gain) {
+			PowerFactor_ = PowerFactor_ * Power_Factor_Gain;
 		} // Gain Correction
 	}
 	
-	MAX_Serial.end();
+	EnergyBoard_Serial.end();
 	return PowerFactor_;
 }
-float MAX78630::Frequency(void) {
+
+// Other Functions
+float EnergyBoard::Frequency(void) {
 	
-    MAX_Serial.begin(Serial_BoudRate);
+    EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
     float Frequency_ = 0;
@@ -1336,14 +1351,14 @@ float MAX78630::Frequency(void) {
 	SendCommand(0x80,0x01); // Frequency = 0xAA,0x07,0xA3,0x80,0x01,0xE3,0x48
 	// ----------------------------------------------------------------------
 
-	if (MAX_Serial.available()) {
+	if (EnergyBoard_Serial.available()) {
 
-		byte Header					= MAX_Serial.read();
-		byte Recieved_Byte_Count	= MAX_Serial.read();
-		byte Data1					= MAX_Serial.read();
-		byte Data2					= MAX_Serial.read();
-		byte Data3					= MAX_Serial.read();
-		byte CheckSum				= MAX_Serial.read();
+		byte Header					= EnergyBoard_Serial.read();
+		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+		byte Data1					= EnergyBoard_Serial.read();
+		byte Data2					= EnergyBoard_Serial.read();
+		byte Data3					= EnergyBoard_Serial.read();
+		byte CheckSum				= EnergyBoard_Serial.read();
 
 		// Control Recieved Data
 		if (Header == 170) {
@@ -1362,17 +1377,17 @@ float MAX78630::Frequency(void) {
                 delay(10);
             } // Checksum failed.
             
-		if (MAX78630_Gain == 1) {
-                Frequency_ = Frequency_ * MAX78630_Frequency_Gain;
+		if (Gain) {
+                Frequency_ = Frequency_ * Frequency_Gain;
             } // Gain Correction
 	}
 	
-    MAX_Serial.end();
+    EnergyBoard_Serial.end();
     return Frequency_;
 }
-float MAX78630::Temperature(void) {
+float EnergyBoard::IC_Temperature(void) {
     
-    MAX_Serial.begin(Serial_BoudRate);
+    EnergyBoard_Serial.begin(BoudRate);
     delay(10);
     
     float Temperature_ = 0;
@@ -1380,14 +1395,14 @@ float MAX78630::Temperature(void) {
     if (ClearBuffer() == true) {
         SendCommand(116,1);
         
-        if (MAX_Serial.available()) {
+        if (EnergyBoard_Serial.available()) {
             
-            byte Header					= MAX_Serial.read();
-            byte Recieved_Byte_Count	= MAX_Serial.read();
-            byte Data1					= MAX_Serial.read();
-            byte Data2					= MAX_Serial.read();
-            byte Data3					= MAX_Serial.read();
-            byte CheckSum				= MAX_Serial.read();
+            byte Header					= EnergyBoard_Serial.read();
+            byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
+            byte Data1					= EnergyBoard_Serial.read();
+            byte Data2					= EnergyBoard_Serial.read();
+            byte Data3					= EnergyBoard_Serial.read();
+            byte CheckSum				= EnergyBoard_Serial.read();
             
             // Control Recieved Data
             if (Header == 170) {
@@ -1406,36 +1421,35 @@ float MAX78630::Temperature(void) {
                 delay(10);
             } // Checksum failed.
             
-            if (MAX78630_Gain == 1) {
+            if (Gain) {
                 Temperature_ = Temperature_ / 1000;
             } // Gain Correction
         }
     }
     
-    MAX_Serial.end();
+    EnergyBoard_Serial.end();
     return Temperature_;
 }
 
-bool MAX78630::ClearBuffer(void) {
+// Private Functions
+bool EnergyBoard::ClearBuffer(void) {
     
-    MAX_Serial.flush();
-    while(MAX_Serial.available() > 0) char _t = MAX_Serial.read();
+    EnergyBoard_Serial.flush();
+    while(EnergyBoard_Serial.available() > 0) char _t = EnergyBoard_Serial.read();
     delay(20);
-    
     return true;
 }
-bool MAX78630::SendCommand(int CHR1, int CHR2) {
+bool EnergyBoard::SendCommand(int CHR1, int CHR2) {
     
     int CheckSum = 0x100 - ((0xAA + 0x07 + 0xA3 + CHR1 + CHR2 + 0xE3) % 256);
     
-    MAX_Serial.write(0xAA);			// (0xAA)
-    MAX_Serial.write(0x07);			// (0x07)
-    MAX_Serial.write(0xA3);			// (0xA3)
-    MAX_Serial.write(CHR1);			// (CHR2)
-    MAX_Serial.write(CHR2);			// (CHR1)
-    MAX_Serial.write(0xE3);			// (0xE3)
-    MAX_Serial.write(CheckSum);		// (CHK)
-    
+    EnergyBoard_Serial.write(0xAA);			// (0xAA)
+    EnergyBoard_Serial.write(0x07);			// (0x07)
+    EnergyBoard_Serial.write(0xA3);			// (0xA3)
+    EnergyBoard_Serial.write(CHR1);			// (CHR2)
+    EnergyBoard_Serial.write(CHR2);			// (CHR1)
+    EnergyBoard_Serial.write(0xE3);			// (0xE3)
+    EnergyBoard_Serial.write(CheckSum);		// (CHK)
     delay(10);
     
     return true;
