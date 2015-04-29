@@ -15,35 +15,35 @@
 ![EB_Block](https://github.com/x2bus/EnergyBoard/blob/master/extras/EnergyBoard_Blok.jpg?raw=true)
 
 ## Functions
-|Function|Per Phase|Result Data|Description|
-|:--------|:---------:|:-----------:|:-----------|
-| RMS_Voltage | R,S,T | Float | RMS Voltage Read for 3 Phase |
-| RMS_Voltage_AVR | - | Float | RMS Voltage Average of 3 Phase |
-| INST_Voltage | R,S,T | Float | Instantaneous Voltage |
-| FUN_Voltage | R,S,T | Float | Fundamental Voltage of 3 Phase |
-| HARM_Voltage | R,S,T | Float | Harmonic Voltage of 3 Phase |
-| RMS_Voltage_MIN | - | Float | Minimum Voltage Alarm Limit |
-| RMS_Voltage_MAX | - | Float | Maximum Voltage Alarm Limit |
-| RMS_Current | R,S,T | Float | RMS Current Read for 3 Phase |
-| RMS_Current_AVR | - | Float | RMS Current Average of 3 Phase |
-| PEAK_Current | R,S,T | Float | Peak Current Read for 3 Phase |
-| INST_Current | R,S,T | Float | Instantaneous Current |
-| FUN_Current | R,S,T | Float | Fundamental Current of 3 Phase |
-| HARM_Current | R,S,T | Float | Harmonic Current of 3 Phase |
-| RMS_Current_MAX | - | Float | Maximum Current Alarm Limit |
-| ActivePower | R,S,T | Float | Active Power Read for 3 Phase |
-| ActivePower_AVR | - | Float | Active Power Average of 3 Phase |
-| ReActivePower | R,S,T | Float | Re Active Power Read for 3 Phase |
-| ReActivePower_AVR | - | Float | Re Active Power Avarege of 3 Phase |
-| ApparentPower | R,S,T | Float | Apparent Power Read for 3 Phase |
-| ApparentPower_AVR | - | Float | Apparent Power Average of 3 Phase |
-| FundamentalPower | R,S,T | Float | Fundamental Power Read for 3 Phase |
-| HarmonicPower | R,S,T | Float | Harmonic Power Read for 3 Phase |
-| FundamentalVA | R,S,T | Float | Fundamental Volt Amper Read for 3 Phase |
-| PowerFactor | R,S,T | Float | Power Factor Read for 3 Phase |
-| PowerFactor_AVR | - | Float | Power Factor Average of 3 Phase |
-| Frequency | - | Float | Frequency of Power Line |
-| Temperature | - | Float | Temperature of MAX78630 |
+| Function                  | Per Phase|Result Data|Description|
+|:--------------------------|:---------:|:-----------:|:-----------|
+| Voltage_RMS               | R,S,T | Float | RMS Voltage Read for 3 Phase |
+| Voltage_RMS_Average       | - | Float | RMS Voltage Average of 3 Phase |
+| Voltage_Instantaneous     | R,S,T | Float | Instantaneous Voltage |
+| Voltage_Fundamental       | R,S,T | Float | Fundamental Voltage of 3 Phase |
+| Voltage_Harmonic          | R,S,T | Float | Harmonic Voltage of 3 Phase |
+| Voltage_RMS_Alarm_Min     | - | Float | Minimum Voltage Alarm Limit |
+| Voltage_RMS_Alarm_Max     | - | Float | Maximum Voltage Alarm Limit |
+| Current_RMS               | R,S,T | Float | RMS Current Read for 3 Phase |
+| Current_RMS_Average       | - | Float | RMS Current Average of 3 Phase |
+| Current_Peak              | R,S,T | Float | Peak Current Read for 3 Phase |
+| Current_Instantaneous     | R,S,T | Float | Instantaneous Current |
+| Current_Fundamental       | R,S,T | Float | Fundamental Current of 3 Phase |
+| Current_Harmonic          | R,S,T | Float | Harmonic Current of 3 Phase |
+| Current_RMS_Alarm_Max     | - | Float | Maximum Current Alarm Limit |
+| Power_Active              | R,S,T | Float | Active Power Read for 3 Phase |
+| Power_Active_Average      | - | Float | Active Power Average of 3 Phase |
+| Power_Reactive            | R,S,T | Float | Re Active Power Read for 3 Phase |
+| Power_Reactive_Average    | - | Float | Re Active Power Avarege of 3 Phase |
+| Power_Apparent            | R,S,T | Float | Apparent Power Read for 3 Phase |
+| Power_Apparent_Average    | - | Float | Apparent Power Average of 3 Phase |
+| Power_Fundamental         | R,S,T | Float | Fundamental Power Read for 3 Phase |
+| Power_Harmonic            | R,S,T | Float | Harmonic Power Read for 3 Phase |
+| Power_Fundamental_VA      | R,S,T | Float | Fundamental Volt Amper Read for 3 Phase |
+| Power_Factor              | R,S,T | Float | Power Factor Read for 3 Phase |
+| Power_Factor_Average      | - | Float | Power Factor Average of 3 Phase |
+| Frequency                 | - | Float | Frequency of Power Line |
+| IC_Temperature            | - | Float | Temperature of MAX78630 |
 
 
 ## Example Output
