@@ -8,7 +8,7 @@
  *  Library     : X2Bus Energy Board (MAX78630)
  *  Developer	: Mehmet Gunce Akkoyun (gunce.akkoyun@x2bus.com)
  *  GitHub      : https://github.com/x2bus/EnergyBoard
- *  Revision	: 2.0.0
+ *  Revision	: 2.0.1
  *  Relase      : April 2015
  *
  *********************************************************************************/
@@ -107,16 +107,16 @@ float EnergyBoard::Voltage_RMS(char Phase) {
 			Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			Voltage_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			Voltage_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			Voltage_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			Voltage_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -153,16 +153,16 @@ float EnergyBoard::Voltage_RMS_Average() {
 			Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			Voltage_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			Voltage_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			Voltage_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			Voltage_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -201,16 +201,16 @@ float EnergyBoard::Voltage_Instantaneous(char Phase) {
 			Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			Voltage_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			Voltage_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			Voltage_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			Voltage_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -249,16 +249,16 @@ float EnergyBoard::Voltage_Fundamental(char Phase) {
 			Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			Voltage_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			Voltage_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			Voltage_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			Voltage_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -297,16 +297,16 @@ float EnergyBoard::Voltage_Harmonic(char Phase) {
 			Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			Voltage_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			Voltage_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			Voltage_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			Voltage_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -343,16 +343,16 @@ float EnergyBoard::Voltage_RMS_Alarm_Min() {
 			Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			Voltage_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			Voltage_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			Voltage_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			Voltage_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -389,16 +389,16 @@ float EnergyBoard::Voltage_RMS_Alarm_Max() {
 			Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			Voltage_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			Voltage_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			Voltage_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			Voltage_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -441,17 +441,17 @@ float EnergyBoard::Current_RMS(char Phase) {
                 Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
             } // Acknowledge with data.
 			if (Header == 0xAD) {
-                Current_ = -1001;
-            } // Acknowledge without data. (Error: -1001)
+				return -1001;
+			} // Acknowledge without data. (Error: -1001)
 			if (Header == 0xB0) {
-                Current_ = -1002;
-            } // Negative Acknowledge (NACK). (Error: -1002)
+				return -1002;
+			} // Negative Acknowledge (NACK). (Error: -1002)
 			if (Header == 0xBC) {
-                Current_ = -1003;
-            } // Command not implemented. (Error: -1003)
+				return -1003;
+			} // Command not implemented. (Error: -1003)
 			if (Header == 0xBD) {
-                Current_ = -1004;
-            } // Checksum failed. (Error: -1004)
+				return -1004;
+			} // Checksum failed. (Error: -1004)
 
 			if (Gain) {
                 Current_ = Current_ * Current_Gain;
@@ -488,16 +488,16 @@ float EnergyBoard::Current_RMS_Average() {
 			Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			Current_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			Current_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			Current_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			Current_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -536,16 +536,16 @@ float EnergyBoard::Current_Peak(char Phase) {
 			Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			Current_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			Current_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			Current_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			Current_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -584,16 +584,16 @@ float EnergyBoard::Current_Instantaneous(char Phase) {
 			Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			Current_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			Current_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			Current_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			Current_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -632,16 +632,16 @@ float EnergyBoard::Current_Fundamental(char Phase) {
 			Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			Current_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			Current_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			Current_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			Current_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -680,16 +680,16 @@ float EnergyBoard::Current_Harmonic(char Phase) {
 			Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			Current_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			Current_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			Current_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			Current_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -726,16 +726,16 @@ float EnergyBoard::Current_RMS_Alarm_Max() {
 			Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			Current_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			Current_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			Current_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			Current_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -781,16 +781,16 @@ float EnergyBoard::Power_Active(char Phase) {
 			}
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			ActivePower_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			ActivePower_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			ActivePower_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			ActivePower_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -832,16 +832,16 @@ float EnergyBoard::Power_Active_Average() {
 			}
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			ActivePower_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			ActivePower_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			ActivePower_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			ActivePower_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -885,16 +885,16 @@ float EnergyBoard::Power_Reactive(char Phase) {
 			}
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			ReActivePower_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			ReActivePower_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			ReActivePower_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			ReActivePower_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -938,16 +938,16 @@ float EnergyBoard::Power_Reactive_Average() {
 			}
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			ReActivePower_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			ReActivePower_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			ReActivePower_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			ReActivePower_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -961,7 +961,7 @@ float EnergyBoard::Power_Reactive_Average() {
 	return ReActivePower_;
 }
 float EnergyBoard::Power_Apparent(char Phase) {
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
 	ClearBuffer();
 	
@@ -993,16 +993,16 @@ float EnergyBoard::Power_Apparent(char Phase) {
 			}
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			ApparentPower_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			ApparentPower_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			ApparentPower_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			ApparentPower_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -1046,16 +1046,16 @@ float EnergyBoard::Power_Apparent_Average() {
 			}
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			ApparentPower_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			ApparentPower_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			ApparentPower_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			ApparentPower_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -1101,16 +1101,16 @@ float EnergyBoard::Power_Fundamental(char Phase) {
 			}
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			FundamentalPower_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			FundamentalPower_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			FundamentalPower_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			FundamentalPower_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -1156,16 +1156,16 @@ float EnergyBoard::Power_Harmonic(char Phase) {
 			}
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			HarmonicPower_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			HarmonicPower_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			HarmonicPower_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			HarmonicPower_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -1211,16 +1211,16 @@ float EnergyBoard::Power_Fundamental_VA(char Phase) {
 			}
 		} // Acknowledge with data.
 		if (Header == 0xAD) {
-			FundamentalVA_ = -1001;
+			return -1001;
 		} // Acknowledge without data. (Error: -1001)
 		if (Header == 0xB0) {
-			FundamentalVA_ = -1002;
+			return -1002;
 		} // Negative Acknowledge (NACK). (Error: -1002)
 		if (Header == 0xBC) {
-			FundamentalVA_ = -1003;
+			return -1003;
 		} // Command not implemented. (Error: -1003)
 		if (Header == 0xBD) {
-			FundamentalVA_ = -1004;
+			return -1004;
 		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
@@ -1257,7 +1257,7 @@ float EnergyBoard::Power_Factor(char Phase) {
 		byte CheckSum				= EnergyBoard_Serial.read();
 
 		// Control Recieved Data
-		if (Header == 170) {
+		if (Header == 0xAA) {
 			if (Data3 < 128) {
 				PowerFactor_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			}
@@ -1265,18 +1265,18 @@ float EnergyBoard::Power_Factor(char Phase) {
 				PowerFactor_ = -((255 - Data3) * 65536 + (255 - Data2) * 256 + (255 - Data1));
 			}
 		} // Acknowledge with data.
-		if (Header == 173) {
-			PowerFactor_ = -1001;
-		} // Acknowledge without data.
-		if (Header == 176) {
-			PowerFactor_ = -1002;
-		} // Negative Acknowledge (NACK).
-		if (Header == 188) {
-			PowerFactor_ = -1003;
-		} // Command not implemented.
-		if (Header == 189) {
-			PowerFactor_ = -1004;
-		} // Checksum failed.
+		if (Header == 0xAD) {
+			return -1001;
+		} // Acknowledge without data. (Error: -1001)
+		if (Header == 0xB0) {
+			return -1002;
+		} // Negative Acknowledge (NACK). (Error: -1002)
+		if (Header == 0xBC) {
+			return -1003;
+		} // Command not implemented. (Error: -1003)
+		if (Header == 0xBD) {
+			return -1004;
+		} // Checksum failed. (Error: -1004)
 
 		if (Gain) {
 			PowerFactor_ = PowerFactor_ * Power_Factor_Gain;
@@ -1308,7 +1308,7 @@ float EnergyBoard::Power_Factor_Average() {
 		byte CheckSum				= EnergyBoard_Serial.read();
 		
 		// Control Recieved Data
-		if (Header == 170) {
+		if (Header == 0xAA) {
 			if (Data3 < 128) {
 				PowerFactor_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			}
@@ -1316,18 +1316,18 @@ float EnergyBoard::Power_Factor_Average() {
 				PowerFactor_ = -((255 - Data3) * 65536 + (255 - Data2) * 256 + (255 - Data1));
 			}
 		} // Acknowledge with data.
-		if (Header == 173) {
-			PowerFactor_ = -1001;
-		} // Acknowledge without data.
-		if (Header == 176) {
-			PowerFactor_ = -1002;
-		} // Negative Acknowledge (NACK).
-		if (Header == 188) {
-			PowerFactor_ = -1003;
-		} // Command not implemented.
-		if (Header == 189) {
-			PowerFactor_ = -1004;
-		} // Checksum failed.
+		if (Header == 0xAD) {
+			return -1001;
+		} // Acknowledge without data. (Error: -1001)
+		if (Header == 0xB0) {
+			return -1002;
+		} // Negative Acknowledge (NACK). (Error: -1002)
+		if (Header == 0xBC) {
+			return -1003;
+		} // Command not implemented. (Error: -1003)
+		if (Header == 0xBD) {
+			return -1004;
+		} // Checksum failed. (Error: -1004)
 		
 		if (Gain) {
 			PowerFactor_ = PowerFactor_ * Power_Factor_Gain;
@@ -1361,22 +1361,22 @@ float EnergyBoard::Frequency(void) {
 		byte CheckSum				= EnergyBoard_Serial.read();
 
 		// Control Recieved Data
-		if (Header == 170) {
+		if (Header == 0xAA) {
                 Frequency_ = (Data3 * 65536 + Data2 * 256 + Data1);
             } // Acknowledge with data.
-		if (Header == 173) {
-                delay(10);
-            } // Acknowledge without data.
-		if (Header == 176) {
-                delay(10);
-            } // Negative Acknowledge (NACK).
-		if (Header == 188) {
-                delay(10);
-            } // Command not implemented.
-		if (Header == 189) {
-                delay(10);
-            } // Checksum failed.
-            
+		if (Header == 0xAD) {
+			return -1001;
+		} // Acknowledge without data. (Error: -1001)
+		if (Header == 0xB0) {
+			return -1002;
+		} // Negative Acknowledge (NACK). (Error: -1002)
+		if (Header == 0xBC) {
+			return -1003;
+		} // Command not implemented. (Error: -1003)
+		if (Header == 0xBD) {
+			return -1004;
+		} // Checksum failed. (Error: -1004)
+		
 		if (Gain) {
                 Frequency_ = Frequency_ * Frequency_Gain;
             } // Gain Correction
@@ -1393,7 +1393,7 @@ float EnergyBoard::IC_Temperature(void) {
     float Temperature_ = 0;
     
     if (ClearBuffer() == true) {
-        SendCommand(116,1);
+        SendCommand(0x74,0x01);
         
         if (EnergyBoard_Serial.available()) {
             
@@ -1405,22 +1405,22 @@ float EnergyBoard::IC_Temperature(void) {
             byte CheckSum				= EnergyBoard_Serial.read();
             
             // Control Recieved Data
-            if (Header == 170) {
+            if (Header == 0xAA) {
                 Temperature_ = (Data3 * 65536 + Data2 * 256 + Data1);
             } // Acknowledge with data.
-            if (Header == 173) {
-                delay(10);
-            } // Acknowledge without data.
-            if (Header == 176) {
-                delay(10);
-            } // Negative Acknowledge (NACK).
-            if (Header == 188) {
-                delay(10);
-            } // Command not implemented.
-            if (Header == 189) {
-                delay(10);
-            } // Checksum failed.
-            
+			if (Header == 0xAD) {
+				return -1001;
+			} // Acknowledge without data. (Error: -1001)
+			if (Header == 0xB0) {
+				return -1002;
+			} // Negative Acknowledge (NACK). (Error: -1002)
+			if (Header == 0xBC) {
+				return -1003;
+			} // Command not implemented. (Error: -1003)
+			if (Header == 0xBD) {
+				return -1004;
+			} // Checksum failed. (Error: -1004)
+			
             if (Gain) {
                 Temperature_ = Temperature_ / 1000;
             } // Gain Correction
