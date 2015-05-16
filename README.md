@@ -101,6 +101,9 @@ All source code is licensed under the [MIT License](http://opensource.org/licens
 	THE SOFTWARE.
 
 ## Version History
+**2.0.2**
+* Returns absolute value (negative value error updated).
+
 **2.0.1**
 * Error variables updated.
 

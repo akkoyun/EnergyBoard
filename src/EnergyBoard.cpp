@@ -8,7 +8,7 @@
  *  Library     : X2Bus Energy Board (MAX78630)
  *  Developer	: Mehmet Gunce Akkoyun (gunce.akkoyun@x2bus.com)
  *  GitHub      : https://github.com/x2bus/EnergyBoard
- *  Revision	: 2.0.1
+ *  Revision	: 2.0.2
  *  Relase      : April 2015
  *
  *********************************************************************************/
@@ -125,7 +125,7 @@ float EnergyBoard::Voltage_RMS(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-	return Voltage_;
+	return abs(Voltage_);
 }
 float EnergyBoard::Voltage_RMS_Average() {
 	
@@ -171,7 +171,7 @@ float EnergyBoard::Voltage_RMS_Average() {
 	}
 	
 	EnergyBoard_Serial.end();
-	return Voltage_;
+	return abs(Voltage_);
 }
 float EnergyBoard::Voltage_Instantaneous(char Phase) {
 	
@@ -219,7 +219,7 @@ float EnergyBoard::Voltage_Instantaneous(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-	return Voltage_;
+	return abs(Voltage_);
 }
 float EnergyBoard::Voltage_Fundamental(char Phase) {
 	
@@ -267,7 +267,7 @@ float EnergyBoard::Voltage_Fundamental(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-	return Voltage_;
+	return abs(Voltage_);
 }
 float EnergyBoard::Voltage_Harmonic(char Phase) {
 
@@ -315,7 +315,7 @@ float EnergyBoard::Voltage_Harmonic(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-	return Voltage_;
+	return abs(Voltage_);
 }
 float EnergyBoard::Voltage_RMS_Alarm_Min() {
 	
@@ -361,7 +361,7 @@ float EnergyBoard::Voltage_RMS_Alarm_Min() {
 	}
 	
 	EnergyBoard_Serial.end();
-	return Voltage_;
+	return abs(Voltage_);
 }
 float EnergyBoard::Voltage_RMS_Alarm_Max() {
 	
@@ -407,7 +407,7 @@ float EnergyBoard::Voltage_RMS_Alarm_Max() {
 	}
 	
 	EnergyBoard_Serial.end();
-	return Voltage_;
+	return abs(Voltage_);
 }
 
 // Current Function
@@ -460,7 +460,7 @@ float EnergyBoard::Current_RMS(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-	return Current_;
+	return abs(Current_);
 }
 float EnergyBoard::Current_RMS_Average() {
 	
@@ -506,7 +506,7 @@ float EnergyBoard::Current_RMS_Average() {
 	}
 	
 	EnergyBoard_Serial.end();
-	return Current_;
+	return abs(Current_);
 }
 float EnergyBoard::Current_Peak(char Phase) {
 	
@@ -554,7 +554,7 @@ float EnergyBoard::Current_Peak(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-	return Current_;
+	return abs(Current_);
 }
 float EnergyBoard::Current_Instantaneous(char Phase) {
 	
@@ -602,7 +602,7 @@ float EnergyBoard::Current_Instantaneous(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-	return Current_;
+	return abs(Current_);
 }
 float EnergyBoard::Current_Fundamental(char Phase) {
 	
@@ -650,7 +650,7 @@ float EnergyBoard::Current_Fundamental(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-	return Current_;
+	return abs(Current_);
 }
 float EnergyBoard::Current_Harmonic(char Phase) {
 	
@@ -698,7 +698,7 @@ float EnergyBoard::Current_Harmonic(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-	return Current_;
+	return abs(Current_);
 }
 float EnergyBoard::Current_RMS_Alarm_Max() {
 
@@ -744,7 +744,7 @@ float EnergyBoard::Current_RMS_Alarm_Max() {
 	}
 	
 	EnergyBoard_Serial.end();
-	return Current_;
+	return abs(Current_);
 }
 
 // Power Functions
@@ -799,7 +799,7 @@ float EnergyBoard::Power_Active(char Phase) {
 	}
 
 	EnergyBoard_Serial.end();
-	return ActivePower_;
+	return abs(ActivePower_);
 }
 float EnergyBoard::Power_Active_Average() {
 
@@ -850,7 +850,7 @@ float EnergyBoard::Power_Active_Average() {
 	}
 	
 	EnergyBoard_Serial.end();
-	return ActivePower_;
+	return abs(ActivePower_);
 }
 float EnergyBoard::Power_Reactive(char Phase) {
 	
@@ -903,9 +903,7 @@ float EnergyBoard::Power_Reactive(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-
-    if (ReActivePower_ < 0) ReActivePower_ = ReActivePower_ * -1;
-	return ReActivePower_;
+	return abs(ReActivePower_);
 }
 float EnergyBoard::Power_Reactive_Average() {
 	
@@ -956,9 +954,7 @@ float EnergyBoard::Power_Reactive_Average() {
 	}
 	
 	EnergyBoard_Serial.end();
-    
-	if (ReActivePower_ < 0) ReActivePower_ = ReActivePower_ * -1;
-	return ReActivePower_;
+	return abs(ReActivePower_);
 }
 float EnergyBoard::Power_Apparent(char Phase) {
 
@@ -1011,9 +1007,7 @@ float EnergyBoard::Power_Apparent(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-    
-	if (ApparentPower_ < 0) ApparentPower_ = ApparentPower_ * -1;
-	return ApparentPower_;
+	return abs(ApparentPower_);
 }
 float EnergyBoard::Power_Apparent_Average() {
 	
@@ -1064,9 +1058,7 @@ float EnergyBoard::Power_Apparent_Average() {
 	}
 	
 	EnergyBoard_Serial.end();
-    
-	if (ApparentPower_ < 0) ApparentPower_ = ApparentPower_ * -1;
-	return ApparentPower_;
+	return abs(ApparentPower_);
 }
 float EnergyBoard::Power_Fundamental(char Phase) {
 	
@@ -1119,9 +1111,7 @@ float EnergyBoard::Power_Fundamental(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-    
-	if (FundamentalPower_ < 0) FundamentalPower_ = FundamentalPower_ * -1;
-	return FundamentalPower_;
+	return abs(FundamentalPower_);
 }
 float EnergyBoard::Power_Harmonic(char Phase) {
 	
@@ -1174,9 +1164,7 @@ float EnergyBoard::Power_Harmonic(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-    
-	if (HarmonicPower_ < 0) HarmonicPower_ = HarmonicPower_ * -1;
-	return HarmonicPower_;
+	return abs(HarmonicPower_);
 }
 float EnergyBoard::Power_Fundamental_VA(char Phase) {
 	
@@ -1229,9 +1217,7 @@ float EnergyBoard::Power_Fundamental_VA(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-    
-	if (FundamentalVA_ < 0) FundamentalVA_ = FundamentalVA_ * -1;
-	return FundamentalVA_;
+	return abs(FundamentalVA_);
 }
 float EnergyBoard::Power_Factor(char Phase) {
 
@@ -1284,7 +1270,7 @@ float EnergyBoard::Power_Factor(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-	return PowerFactor_;
+	return abs(PowerFactor_);
 }
 float EnergyBoard::Power_Factor_Average() {
 
@@ -1335,7 +1321,7 @@ float EnergyBoard::Power_Factor_Average() {
 	}
 	
 	EnergyBoard_Serial.end();
-	return PowerFactor_;
+	return abs(PowerFactor_);
 }
 
 // Other Functions
@@ -1383,7 +1369,7 @@ float EnergyBoard::Frequency(void) {
 	}
 	
     EnergyBoard_Serial.end();
-    return Frequency_;
+    return abs(Frequency_);
 }
 float EnergyBoard::IC_Temperature(void) {
     

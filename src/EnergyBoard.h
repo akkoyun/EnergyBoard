@@ -8,7 +8,7 @@
  *  Library     : X2Bus Energy Board (MAX78630)
  *  Developer	: Mehmet Gunce Akkoyun (gunce.akkoyun@x2bus.com)
  *  GitHub      : https://github.com/x2bus/EnergyBoard
- *  Revision	: 2.0.1
+ *  Revision	: 2.0.2
  *  Relase      : April 2015
  *
  *********************************************************************************/
