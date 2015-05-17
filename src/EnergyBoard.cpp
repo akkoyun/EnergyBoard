@@ -57,22 +57,25 @@
 EnergyBoard::EnergyBoard(int Gain_) {
     
     EnergyBoard_Serial.begin(BoudRate);
-
+    
+    // Device Selection
     ClearBuffer();
     EnergyBoard_Serial.write(0xAA);	// Header (0xAA)
     EnergyBoard_Serial.write(0x04);	// Total Sended Byte (0x04)
     EnergyBoard_Serial.write(0xC4);	// Setting Command (0xC4)
     EnergyBoard_Serial.write(0x8E);	// CheckSum (0x8E)
 
+    // Calibration Registers
 	delay(10);
 	ClearBuffer();
 	EnergyBoard_Serial.write(0xAA);	// Header (0xAA)
-	EnergyBoard_Serial.write(0x06);	// Total Sended Byte (0x04)
-	EnergyBoard_Serial.write(0xCA);	// Setting Command (0xC4)
-	EnergyBoard_Serial.write(0x65);	// Setting Command (0xC4)
-	EnergyBoard_Serial.write(0xFF);	// Setting Command (0xC4)
-	EnergyBoard_Serial.write(0x22);	// CheckSum (0x8E)
-
+	EnergyBoard_Serial.write(0x08);	// Total Sended Byte (0x08)
+	EnergyBoard_Serial.write(0xCA);	// Calibration Command (0xC4)
+	EnergyBoard_Serial.write(0x65);	// Calibrate Command (0x65)
+    EnergyBoard_Serial.write(0x01);	// Command 1
+    EnergyBoard_Serial.write(0xFD);	// Command 2
+	EnergyBoard_Serial.write(0xD0);	// Command 3
+	EnergyBoard_Serial.write(0x51);	// CheckSum (0x8E)
 	EnergyBoard_Serial.end();
     
     if (Gain_ != 0) Gain = true;
