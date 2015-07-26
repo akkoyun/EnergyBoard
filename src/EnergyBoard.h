@@ -1,15 +1,18 @@
 /* *******************************************************************************
  *
- *  Copyright (C) 2014-2015 X2Bus (info@x2bus.com)
- *  Can not be copied and/or distributed without the express permission of X2Bus
+ *  Copyright (C) 2014-2015 LVX Elektronik A.S. (info@lvx.com.tr)
+ *  Can not be copied and/or distributed without the express permission of LVX
  *
- *  The library is compatable with Arduino and the Open Hardware Community.
+ *	LVX Energy Board is a 3 phase energy monitoring development kit
  *
- *  Library     : X2Bus Energy Board (MAX78630)
- *  Developer	: Mehmet Gunce Akkoyun (gunce.akkoyun@x2bus.com)
- *  GitHub      : https://github.com/x2bus/EnergyBoard
- *  Revision	: 2.0.2
- *  Relase      : April 2015
+ *	The library is compatable with Arduino and the Open Hardware Community.
+ *
+ *	Library				: LVX Energy Board (MAX78630)
+ *	Code Developer		: Mehmet Gunce Akkoyun (gunce.akkoyun@lvx.com.tr)
+ *	Hardware Developer	: Alp Erkan Savli (alp.savli@lvx.com.tr)
+ *	GitHub				: https://github.com/LVXElektronik/EnergyBoard
+ *	Revision			: 2.1.2
+ *	Relase				: July 2015
  *
  *********************************************************************************/
 

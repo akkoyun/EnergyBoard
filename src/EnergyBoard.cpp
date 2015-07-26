@@ -1,15 +1,18 @@
 /* *******************************************************************************
  *
- *  Copyright (C) 2014-2015 X2Bus (info@x2bus.com)
- *  Can not be copied and/or distributed without the express permission of X2Bus
+ *  Copyright (C) 2014-2015 LVX Elektronik A.S. (info@lvx.com.tr)
+ *  Can not be copied and/or distributed without the express permission of LVX
  *
- *  The library is compatable with Arduino and the Open Hardware Community.
+ *	LVX Energy Board is a 3 phase energy monitoring development kit
  *
- *  Library     : X2Bus Energy Board (MAX78630)
- *  Developer	: Mehmet Gunce Akkoyun (gunce.akkoyun@x2bus.com)
- *  GitHub      : https://github.com/x2bus/EnergyBoard
- *  Revision	: 2.0.2
- *  Relase      : April 2015
+ *	The library is compatable with Arduino and the Open Hardware Community.
+ *
+ *	Library				: LVX Energy Board (MAX78630)
+ *	Code Developer		: Mehmet Gunce Akkoyun (gunce.akkoyun@lvx.com.tr)
+ *	Hardware Developer	: Alp Erkan Savli (alp.savli@lvx.com.tr)
+ *	GitHub				: https://github.com/LVXElektronik/EnergyBoard
+ *	Revision			: 2.1.2
+ *	Relase				: July 2015
  *
  *********************************************************************************/
 
@@ -19,39 +22,15 @@
 #define EnergyBoard_Serial Serial2	 // Define EnergyBoard Serial
 
 /*
-	MAX78630 Serial Comminication Read Values Structure
-	---------------------------------------------------
-	Read Request : [1]-[2]-[3]-[4]-[5]-[6]-[7]
-	---------------------------------------------------
-	1. byte is the IC address byte
-	2. byte is the total sended byte
-	3. byte is the package payload type
-	4. byte is the request (RMS) byte (2)
-	5. byte is the request (RMS) byte (1)
-	6. byte is the requested byte count
-	7. byte is the CRC correction byte
- 
 	Library Usage
 	-------------
-	Voltage_R = MAX78630::Voltage('R');
-	Voltage_S = MAX78630::Voltage('S');
-	Voltage_T = MAX78630::Voltage('T');
-	Current_R = MAX78630::Current('R');
-	Current_S = MAX78630::Current('S');
-	Current_T = MAX78630::Current('T');
-	ActivePower_R = MAX78630::ActivePower('R');
-	ActivePower_S = MAX78630::ActivePower('S');
-	ActivePower_T = MAX78630::ActivePower('T');
-	ReactivePower_R = MAX78630::ReactivePower('R');
-	ReactivePower_S = MAX78630::ReactivePower('S');
-	ReactivePower_T = MAX78630::ReactivePower('T');
-	ApparentPower_R = MAX78630::ApparentPower('R');
-	ApparentPower_S = MAX78630::ApparentPower('S');
-	ApparentPower_T = MAX78630::ApparentPower('T');
-	PowerFactor_R = MAX78630::PowerFactor('R');
-	PowerFactor_S = MAX78630::PowerFactor('S');
-	PowerFactor_T = MAX78630::PowerFactor('T');
-	Frequency = MAX78630::Frequency();
+	Voltage_RMS				-> Read RMS voltage of selected phase
+	Voltage_RMS_Average		-> Read average RMS voltage
+	Voltage_Instantaneous	-> Read instantaneous voltage of selected phase
+	Voltage_Fundamental		-> Read fundamental voltage of selected phase
+	Voltage_Harmonic		-> Read harmonic voltage of selected phase
+	Voltage_RMS_Alarm_Min	-> Read minimum voltage alarm of IC
+	Voltage_RMS_Alarm_Max	-> Read maximum voltage alarm of IC
  */
 
 EnergyBoard::EnergyBoard(int Gain_) {
@@ -106,18 +85,9 @@ float EnergyBoard::Voltage_RMS(char Phase) {
 		if (Header == 0xAA) {
 			Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
-		if (Header == 0xAD) {
-			return -1001;
-		} // Acknowledge without data. (Error: -1001)
-		if (Header == 0xB0) {
-			return -1002;
-		} // Negative Acknowledge (NACK). (Error: -1002)
-		if (Header == 0xBC) {
-			return -1003;
-		} // Command not implemented. (Error: -1003)
-		if (Header == 0xBD) {
-			return -1004;
-		} // Checksum failed. (Error: -1004)
+		else {
+			Voltage_ = -1;
+		} // Error
 		
 		if (Gain) {
 			Voltage_ = Voltage_ * Voltage_Gain;
@@ -125,7 +95,7 @@ float EnergyBoard::Voltage_RMS(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-	return abs(Voltage_);
+	return Voltage_;
 }
 float EnergyBoard::Voltage_RMS_Average() {
 	
@@ -152,18 +122,9 @@ float EnergyBoard::Voltage_RMS_Average() {
 		if (Header == 0xAA) {
 			Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
-		if (Header == 0xAD) {
-			return -1001;
-		} // Acknowledge without data. (Error: -1001)
-		if (Header == 0xB0) {
-			return -1002;
-		} // Negative Acknowledge (NACK). (Error: -1002)
-		if (Header == 0xBC) {
-			return -1003;
-		} // Command not implemented. (Error: -1003)
-		if (Header == 0xBD) {
-			return -1004;
-		} // Checksum failed. (Error: -1004)
+		else {
+			Voltage_ = -1;
+		} // Error
 		
 		if (Gain) {
 			Voltage_ = Voltage_ * Voltage_Gain;
@@ -171,7 +132,7 @@ float EnergyBoard::Voltage_RMS_Average() {
 	}
 	
 	EnergyBoard_Serial.end();
-	return abs(Voltage_);
+	return Voltage_;
 }
 float EnergyBoard::Voltage_Instantaneous(char Phase) {
 	
@@ -200,18 +161,9 @@ float EnergyBoard::Voltage_Instantaneous(char Phase) {
 		if (Header == 0xAA) {
 			Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
-		if (Header == 0xAD) {
-			return -1001;
-		} // Acknowledge without data. (Error: -1001)
-		if (Header == 0xB0) {
-			return -1002;
-		} // Negative Acknowledge (NACK). (Error: -1002)
-		if (Header == 0xBC) {
-			return -1003;
-		} // Command not implemented. (Error: -1003)
-		if (Header == 0xBD) {
-			return -1004;
-		} // Checksum failed. (Error: -1004)
+		else {
+			Voltage_ = -1;
+		} // Error
 		
 		if (Gain) {
 			Voltage_ = Voltage_ * Voltage_Gain;
@@ -219,7 +171,7 @@ float EnergyBoard::Voltage_Instantaneous(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-	return abs(Voltage_);
+	return Voltage_;
 }
 float EnergyBoard::Voltage_Fundamental(char Phase) {
 	
@@ -248,18 +200,9 @@ float EnergyBoard::Voltage_Fundamental(char Phase) {
 		if (Header == 0xAA) {
 			Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
-		if (Header == 0xAD) {
-			return -1001;
-		} // Acknowledge without data. (Error: -1001)
-		if (Header == 0xB0) {
-			return -1002;
-		} // Negative Acknowledge (NACK). (Error: -1002)
-		if (Header == 0xBC) {
-			return -1003;
-		} // Command not implemented. (Error: -1003)
-		if (Header == 0xBD) {
-			return -1004;
-		} // Checksum failed. (Error: -1004)
+		else {
+			Voltage_ = -1;
+		} // Error
 		
 		if (Gain) {
 			Voltage_ = Voltage_ * Voltage_Gain;
@@ -267,7 +210,7 @@ float EnergyBoard::Voltage_Fundamental(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-	return abs(Voltage_);
+	return Voltage_;
 }
 float EnergyBoard::Voltage_Harmonic(char Phase) {
 
@@ -296,18 +239,9 @@ float EnergyBoard::Voltage_Harmonic(char Phase) {
 		if (Header == 0xAA) {
 			Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
-		if (Header == 0xAD) {
-			return -1001;
-		} // Acknowledge without data. (Error: -1001)
-		if (Header == 0xB0) {
-			return -1002;
-		} // Negative Acknowledge (NACK). (Error: -1002)
-		if (Header == 0xBC) {
-			return -1003;
-		} // Command not implemented. (Error: -1003)
-		if (Header == 0xBD) {
-			return -1004;
-		} // Checksum failed. (Error: -1004)
+		else {
+			Voltage_ = -1;
+		} // Error
 		
 		if (Gain) {
 			Voltage_ = Voltage_ * Voltage_Gain;
@@ -315,7 +249,7 @@ float EnergyBoard::Voltage_Harmonic(char Phase) {
 	}
 	
 	EnergyBoard_Serial.end();
-	return abs(Voltage_);
+	return Voltage_;
 }
 float EnergyBoard::Voltage_RMS_Alarm_Min() {
 	
@@ -342,18 +276,9 @@ float EnergyBoard::Voltage_RMS_Alarm_Min() {
 		if (Header == 0xAA) {
 			Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
-		if (Header == 0xAD) {
-			return -1001;
-		} // Acknowledge without data. (Error: -1001)
-		if (Header == 0xB0) {
-			return -1002;
-		} // Negative Acknowledge (NACK). (Error: -1002)
-		if (Header == 0xBC) {
-			return -1003;
-		} // Command not implemented. (Error: -1003)
-		if (Header == 0xBD) {
-			return -1004;
-		} // Checksum failed. (Error: -1004)
+		else {
+			Voltage_ = -1;
+		} // Error
 		
 		if (Gain) {
 			Voltage_ = Voltage_ * Voltage_Gain;
@@ -361,7 +286,7 @@ float EnergyBoard::Voltage_RMS_Alarm_Min() {
 	}
 	
 	EnergyBoard_Serial.end();
-	return abs(Voltage_);
+	return Voltage_;
 }
 float EnergyBoard::Voltage_RMS_Alarm_Max() {
 	
@@ -388,18 +313,9 @@ float EnergyBoard::Voltage_RMS_Alarm_Max() {
 		if (Header == 0xAA) {
 			Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 		} // Acknowledge with data.
-		if (Header == 0xAD) {
-			return -1001;
-		} // Acknowledge without data. (Error: -1001)
-		if (Header == 0xB0) {
-			return -1002;
-		} // Negative Acknowledge (NACK). (Error: -1002)
-		if (Header == 0xBC) {
-			return -1003;
-		} // Command not implemented. (Error: -1003)
-		if (Header == 0xBD) {
-			return -1004;
-		} // Checksum failed. (Error: -1004)
+		else {
+			Voltage_ = -1;
+		} // Error
 		
 		if (Gain) {
 			Voltage_ = Voltage_ * Voltage_Gain;
@@ -1426,16 +1342,30 @@ bool EnergyBoard::ClearBuffer(void) {
     return true;
 }
 bool EnergyBoard::SendCommand(int CHR1, int CHR2) {
+	
+/*
+	MAX78630 Serial Comminication Read Values Structure
+	---------------------------------------------------
+	Read Request : [1]-[2]-[3]-[4]-[5]-[6]-[7]
+	---------------------------------------------------
+	1. byte is the IC address byte (0xAA)
+	2. byte is the total sended byte (0x07)
+	3. byte is the package payload type (0xA3)
+	4. byte is the request (RMS) byte (2)
+	5. byte is the request (RMS) byte (1)
+	6. byte is the requested byte count (0xE3)
+	7. byte is the CRC correction byte (CHK)
+*/
+
+    int CheckSum = 0x100 - ((0xAA + 0x07 + 0xA3 + CHR1 + CHR2 + 0xE3) % 256); // Calculate checksum
     
-    int CheckSum = 0x100 - ((0xAA + 0x07 + 0xA3 + CHR1 + CHR2 + 0xE3) % 256);
-    
-    EnergyBoard_Serial.write(0xAA);			// (0xAA)
-    EnergyBoard_Serial.write(0x07);			// (0x07)
-    EnergyBoard_Serial.write(0xA3);			// (0xA3)
-    EnergyBoard_Serial.write(CHR1);			// (CHR2)
-    EnergyBoard_Serial.write(CHR2);			// (CHR1)
-    EnergyBoard_Serial.write(0xE3);			// (0xE3)
-    EnergyBoard_Serial.write(CheckSum);		// (CHK)
+    EnergyBoard_Serial.write(0xAA);
+    EnergyBoard_Serial.write(0x07);
+    EnergyBoard_Serial.write(0xA3);
+    EnergyBoard_Serial.write(CHR1);
+    EnergyBoard_Serial.write(CHR2);
+    EnergyBoard_Serial.write(0xE3);
+    EnergyBoard_Serial.write(CheckSum);
     delay(10);
     
     return true;
