@@ -80,7 +80,7 @@
 
 All source code is licensed under the [MIT License](http://opensource.org/licenses/MIT)
 
-	Copyright (c) 2015 X2bus <info@x2bus.com>
+	Copyright (c) 2015 LVX Elektronik <info@lvx.com.tr>
 	 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
@@ -101,6 +101,11 @@ All source code is licensed under the [MIT License](http://opensource.org/licens
 	THE SOFTWARE.
 
 ## Version History
+**2.1.2**
+* Moved the repo to LVX
+* Changed error code to (-1)
+* removed abs function
+
 **2.0.2**
 * Returns absolute value (negative value error updated).
 
