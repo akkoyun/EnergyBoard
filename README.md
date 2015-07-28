@@ -1,50 +1,20 @@
 ![EnergyBoard](https://github.com/x2bus/EnergyBoard/blob/master/extras/Energy_Board_Logo.png?raw=true)
 
 ## Description
-	The EnergyBoard is an energy measurement processor for polyphase power-monitoring 
-	systems. It is designed for real-time monitoring for a variety of typical three-phase 
-	configurations in industrial applications. The MAX78630 provides up to six analog 
-	inputs for interfacing to voltage and current sensors. Scaled voltages from the 
-	sensors are fed to the single converter front-end using a high-resolution delta-sigma 
-	converter. Supported current sensors include current transformers (CTs), Rogowski 
+	The EnergyBoard is an energy measurement processor for polyphase power-monitoring
+	systems. It is designed for real-time monitoring for a variety of typical three-phase
+	configurations in industrial applications. The MAX78630 provides up to six analog
+	inputs for interfacing to voltage and current sensors. Scaled voltages from the
+	sensors are fed to the single converter front-end using a high-resolution delta-sigma
+	converter. Supported current sensors include current transformers (CTs), Rogowski
 	coils, and resistive shunts.  
-	
+
 	In this Arduino Library we can read all data of energy parameters.
 
 ## Block Diagram
 ![EB_Block](https://github.com/x2bus/EnergyBoard/blob/master/extras/EnergyBoard_Blok.jpg?raw=true)
 
-## Functions
-| Function                  | Per Phase|Result Data|Description|
-|:--------------------------|:---------:|:-----------:|:-----------|
-| Voltage_RMS               | R,S,T | Float | RMS Voltage Read for 3 Phase |
-| Voltage_RMS_Average       | - | Float | RMS Voltage Average of 3 Phase |
-| Voltage_Instantaneous     | R,S,T | Float | Instantaneous Voltage |
-| Voltage_Fundamental       | R,S,T | Float | Fundamental Voltage of 3 Phase |
-| Voltage_Harmonic          | R,S,T | Float | Harmonic Voltage of 3 Phase |
-| Voltage_RMS_Alarm_Min     | - | Float | Minimum Voltage Alarm Limit |
-| Voltage_RMS_Alarm_Max     | - | Float | Maximum Voltage Alarm Limit |
-| Current_RMS               | R,S,T | Float | RMS Current Read for 3 Phase |
-| Current_RMS_Average       | - | Float | RMS Current Average of 3 Phase |
-| Current_Peak              | R,S,T | Float | Peak Current Read for 3 Phase |
-| Current_Instantaneous     | R,S,T | Float | Instantaneous Current |
-| Current_Fundamental       | R,S,T | Float | Fundamental Current of 3 Phase |
-| Current_Harmonic          | R,S,T | Float | Harmonic Current of 3 Phase |
-| Current_RMS_Alarm_Max     | - | Float | Maximum Current Alarm Limit |
-| Power_Active              | R,S,T | Float | Active Power Read for 3 Phase |
-| Power_Active_Average      | - | Float | Active Power Average of 3 Phase |
-| Power_Reactive            | R,S,T | Float | Re Active Power Read for 3 Phase |
-| Power_Reactive_Average    | - | Float | Re Active Power Avarege of 3 Phase |
-| Power_Apparent            | R,S,T | Float | Apparent Power Read for 3 Phase |
-| Power_Apparent_Average    | - | Float | Apparent Power Average of 3 Phase |
-| Power_Fundamental         | R,S,T | Float | Fundamental Power Read for 3 Phase |
-| Power_Harmonic            | R,S,T | Float | Harmonic Power Read for 3 Phase |
-| Power_Fundamental_VA      | R,S,T | Float | Fundamental Volt Amper Read for 3 Phase |
-| Power_Factor              | R,S,T | Float | Power Factor Read for 3 Phase |
-| Power_Factor_Average      | - | Float | Power Factor Average of 3 Phase |
-| Frequency                 | - | Float | Frequency of Power Line |
-| IC_Temperature            | - | Float | Temperature of MAX78630 |
-
+![EnergyBoard_Functions](https://github.com/LVXElektronik/EnergyBoard/blob/master/extras/EnergyBoard_Functions.jpg?raw=true)
 
 ## Example Output
 
@@ -71,8 +41,8 @@
 > **Fundamental Power** : 56.63 W  
 > **Harmonic Power** : 0.67 W  
 > **Fundamental Volt Amper** : 57.80 VA  
-> **Power Factor** : 0.59   
-> **Power Factor Avarage** : 0.59   
+> **Power Factor** : 0.59
+> **Power Factor Avarage** : 0.59
 > **Frequency** : 49.00 Hz  
 > **IC Temperature** : 18.12 C  
 
@@ -81,17 +51,17 @@
 All source code is licensed under the [MIT License](http://opensource.org/licenses/MIT)
 
 	Copyright (c) 2015 LVX Elektronik <info@lvx.com.tr>
-	 
+
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
 	in the Software without restriction, including without limitation the rights
 	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 	copies of the Software, and to permit persons to whom the Software is furnished
 	to do so, subject to the following conditions:
-	 
+
 	The above copyright notice and this permission notice shall be included in all
 	copies or substantial portions of the Software.
-	 
+
 	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
