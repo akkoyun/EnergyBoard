@@ -71,7 +71,7 @@ All source code is licensed under the [MIT License](http://opensource.org/licens
 	THE SOFTWARE.
 
 ## Version History
-**2.0.2**
+**2.2.0**
 * All functions are sampled via Saleae
 * Make updates for times
 * Measure faster
