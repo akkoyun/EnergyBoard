@@ -71,6 +71,12 @@ All source code is licensed under the [MIT License](http://opensource.org/licens
 	THE SOFTWARE.
 
 ## Version History
+**2.0.2**
+* All functions are sampled via Saleae
+* Make updates for times
+* Measure faster
+* Added UART anaylses to extras
+
 **2.1.2**
 * Moved the repo to LVX
 * Changed error code to (-1)
