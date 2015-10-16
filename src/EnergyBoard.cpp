@@ -11,15 +11,15 @@
  *	Code Developer		: Mehmet Gunce Akkoyun (gunce.akkoyun@lvx.com.tr)
  *	Hardware Developer	: Alp Erkan Savli (alp.savli@lvx.com.tr)
  *	GitHub				: https://github.com/LVXElektronik/EnergyBoard
- *	Revision			: 2.1.2
- *	Relase				: July 2015
+ *	Revision			: 2.2.0
+ *	Relase				: 16.10.2015
  *
  *********************************************************************************/
 
 #include "Arduino.h"
 #include "EnergyBoard.h"
 
-#define EnergyBoard_Serial Serial2	 // Define EnergyBoard Serial
+#define EnergyBoard_Serial Serial3				// Define EnergyBoard Serial
 
 /*
 	Library Usage
@@ -51,7 +51,6 @@ EnergyBoard::EnergyBoard(int Gain_) {
 	EnergyBoard_Serial.write(0x65);	// Setting Command (0xC4)
 	EnergyBoard_Serial.write(0xFF);	// Setting Command (0xC4)
 	EnergyBoard_Serial.write(0x22);	// CheckSum (0x8E)
-
 	EnergyBoard_Serial.end();
     
     if (Gain_ != 0) Gain = true;
@@ -1330,15 +1329,14 @@ float EnergyBoard::IC_Temperature(void) {
     }
     
     EnergyBoard_Serial.end();
-    return Temperature_;
+    return abs(Temperature_);
 }
 
 // Private Functions
 bool EnergyBoard::ClearBuffer(void) {
-    
     EnergyBoard_Serial.flush();
     while(EnergyBoard_Serial.available() > 0) char _t = EnergyBoard_Serial.read();
-    delay(20);
+	delay(5);
     return true;
 }
 bool EnergyBoard::SendCommand(int CHR1, int CHR2) {
@@ -1357,7 +1355,7 @@ bool EnergyBoard::SendCommand(int CHR1, int CHR2) {
 	7. byte is the CRC correction byte (CHK)
 */
 
-    int CheckSum = 0x100 - ((0xAA + 0x07 + 0xA3 + CHR1 + CHR2 + 0xE3) % 256); // Calculate checksum
+    int ChkS = 0x100 - ((0xAA + 0x07 + 0xA3 + CHR1 + CHR2 + 0xE3) % 256); // Calculate checksum
     
     EnergyBoard_Serial.write(0xAA);
     EnergyBoard_Serial.write(0x07);
@@ -1365,7 +1363,7 @@ bool EnergyBoard::SendCommand(int CHR1, int CHR2) {
     EnergyBoard_Serial.write(CHR1);
     EnergyBoard_Serial.write(CHR2);
     EnergyBoard_Serial.write(0xE3);
-    EnergyBoard_Serial.write(CheckSum);
+    EnergyBoard_Serial.write(ChkS);
     delay(10);
     
     return true;

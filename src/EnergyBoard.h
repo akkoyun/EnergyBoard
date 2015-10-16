@@ -11,8 +11,8 @@
  *	Code Developer		: Mehmet Gunce Akkoyun (gunce.akkoyun@lvx.com.tr)
  *	Hardware Developer	: Alp Erkan Savli (alp.savli@lvx.com.tr)
  *	GitHub				: https://github.com/LVXElektronik/EnergyBoard
- *	Revision			: 2.1.2
- *	Relase				: July 2015
+ *	Revision			: 2.2.0
+ *	Relase				: 16.10.2015
  *
  *********************************************************************************/
 
