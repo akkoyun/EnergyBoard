@@ -10,7 +10,7 @@
  *	Library				: LVX Energy Board (MAX78630)
  *	Code Developer		: Mehmet Gunce Akkoyun (gunce.akkoyun@lvx.com.tr)
  *	GitHub				: https://github.com/LVXElektronik/EnergyBoard
- *	Revision			: 3.0.0
+ *	Revision			: 3.0.1
  *	Relase				: 27.10.2015
  *
  *********************************************************************************/

@@ -71,7 +71,7 @@ All source code is licensed under the [MIT License](http://opensource.org/licens
 	THE SOFTWARE.
 
 ## Version History
-**3.0.0**
+**3.0.1**
 * Define Min Limits (if reading value is smaller than limit return 0)
 * Faster UART Connection
 * Error Codes Updated (No Phase Selected = 0, Invalid Response Header = -1, Recieved Data Count or Checksum Error = -2, No Response = -3)
