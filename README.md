@@ -71,6 +71,9 @@ All source code is licensed under the [MIT License](http://opensource.org/licens
 	THE SOFTWARE.
 
 ## Version History
+**3.0.2**
+* Return zero (-3) error fixed
+
 **3.0.1**
 * Define Min Limits (if reading value is smaller than limit return 0)
 * Faster UART Connection

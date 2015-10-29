@@ -10,7 +10,7 @@
  *	Library				: LVX Energy Board (MAX78630)
  *	Code Developer		: Mehmet Gunce Akkoyun (gunce.akkoyun@lvx.com.tr)
  *	GitHub				: https://github.com/LVXElektronik/EnergyBoard
- *	Revision			: 3.0.1
+ *	Revision			: 3.0.2
  *	Relase				: 27.10.2015
  *
  *********************************************************************************/
@@ -96,6 +96,8 @@ float EnergyBoard::Voltage_RMS(char Phase) {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Voltage_ > Min_Read_Voltage) return Voltage_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Voltage_RMS_Average() {
@@ -137,6 +139,8 @@ float EnergyBoard::Voltage_RMS_Average() {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Voltage_ > Min_Read_Voltage) return Voltage_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Voltage_Instantaneous(char Phase) {
@@ -190,6 +194,8 @@ float EnergyBoard::Voltage_Instantaneous(char Phase) {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Voltage_ > Min_Read_Voltage) return Voltage_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Voltage_Fundamental(char Phase) {
@@ -243,6 +249,8 @@ float EnergyBoard::Voltage_Fundamental(char Phase) {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Voltage_ > Min_Read_Voltage) return Voltage_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Voltage_Harmonic(char Phase) {
@@ -296,6 +304,8 @@ float EnergyBoard::Voltage_Harmonic(char Phase) {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Voltage_ > Min_Read_Voltage) return Voltage_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Voltage_RMS_Alarm_Min() {
@@ -337,6 +347,8 @@ float EnergyBoard::Voltage_RMS_Alarm_Min() {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Voltage_ > Min_Read_Voltage) return Voltage_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Voltage_RMS_Alarm_Max() {
@@ -378,6 +390,8 @@ float EnergyBoard::Voltage_RMS_Alarm_Max() {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Voltage_ > Min_Read_Voltage) return Voltage_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 
@@ -433,6 +447,8 @@ float EnergyBoard::Current_RMS(char Phase) {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Current_ > Min_Read_Current) return Current_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Current_RMS_Average() {
@@ -474,6 +490,8 @@ float EnergyBoard::Current_RMS_Average() {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Current_ > Min_Read_Current) return Current_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Current_Peak(char Phase) {
@@ -527,6 +545,8 @@ float EnergyBoard::Current_Peak(char Phase) {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Current_ > Min_Read_Current) return Current_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Current_Instantaneous(char Phase) {
@@ -580,6 +600,8 @@ float EnergyBoard::Current_Instantaneous(char Phase) {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Current_ > Min_Read_Current) return Current_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Current_Fundamental(char Phase) {
@@ -633,6 +655,8 @@ float EnergyBoard::Current_Fundamental(char Phase) {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Current_ > Min_Read_Current) return Current_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Current_Harmonic(char Phase) {
@@ -686,6 +710,8 @@ float EnergyBoard::Current_Harmonic(char Phase) {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Current_ > Min_Read_Current) return Current_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Current_RMS_Alarm_Max() {
@@ -727,6 +753,8 @@ float EnergyBoard::Current_RMS_Alarm_Max() {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Current_ > Min_Read_Current) return Current_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 
@@ -789,6 +817,8 @@ float EnergyBoard::Power_Active(char Phase) {
 	else {EnergyBoard_Serial.end();}
 
 	if (Power_ > Min_Read_Power) return Power_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Active_Average() {
@@ -837,6 +867,8 @@ float EnergyBoard::Power_Active_Average() {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Power_ > Min_Read_Power) return Power_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Reactive(char Phase) {
@@ -897,6 +929,8 @@ float EnergyBoard::Power_Reactive(char Phase) {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Power_ > Min_Read_Power) return Power_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Reactive_Average() {
@@ -945,6 +979,8 @@ float EnergyBoard::Power_Reactive_Average() {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Power_ > Min_Read_Power) return Power_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Apparent(char Phase) {
@@ -1005,6 +1041,8 @@ float EnergyBoard::Power_Apparent(char Phase) {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Power_ > Min_Read_Power) return Power_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Apparent_Average() {
@@ -1053,6 +1091,8 @@ float EnergyBoard::Power_Apparent_Average() {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Power_ > Min_Read_Power) return Power_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Fundamental(char Phase) {
@@ -1113,6 +1153,8 @@ float EnergyBoard::Power_Fundamental(char Phase) {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Power_ > Min_Read_Power) return Power_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Harmonic(char Phase) {
@@ -1173,6 +1215,8 @@ float EnergyBoard::Power_Harmonic(char Phase) {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Power_ > Min_Read_Power) return Power_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Fundamental_VA(char Phase) {
@@ -1233,6 +1277,8 @@ float EnergyBoard::Power_Fundamental_VA(char Phase) {
 	else {EnergyBoard_Serial.end();}
 	
 	if (Power_ > Min_Read_Power) return Power_;
+	else {return 0;}
+	
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Factor(char Phase) {
