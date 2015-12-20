@@ -1,4 +1,4 @@
-![EnergyBoard](https://github.com/x2bus/EnergyBoard/blob/master/extras/Energy_Board_Logo.png?raw=true)
+![EnergyBoard](https://github.com/LVXElektronik/EnergyBoard/blob/master/extras/EnergyBoard.jpg?raw=true)
 
 ## Description
 	The EnergyBoard is an energy measurement processor for polyphase power-monitoring
