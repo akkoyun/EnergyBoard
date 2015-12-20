@@ -17,6 +17,9 @@
 ## Code Example
 ```c++
 Serial.print(Energy->Voltage_RMS('R')); Serial.println(" V");
+Serial.print(Energy->Voltage_Instantaneous('R')); Serial.println(" V");
+Serial.print(Energy->Voltage_Fundamental('R')); Serial.println(" V");
+Serial.print(Energy->Voltage_Harmonic('R')); Serial.println(" V");
 ```
 
 ## Example Output
