@@ -8,7 +8,7 @@
  *	The library is compatable with Arduino and the Open Hardware Community.
  *
  *	Library				: LVX Energy Board (MAX78630)
- *	Code Developer		: Mehmet Gunce Akkoyun (gunce.akkoyun@lvx.com.tr)
+ *	Code Developer: Mehmet Gunce Akkoyun (gunce.akkoyun@lvx.com.tr)
  *	GitHub				: https://github.com/LVXElektronik/EnergyBoard
  *	Revision			: 3.0.2
  *	Relase				: 27.10.2015
@@ -21,7 +21,7 @@
 #define EnergyBoard_Serial Serial3				// Define EnergyBoard Serial
 
 EnergyBoard::EnergyBoard(int Gain_) {
-    
+
     EnergyBoard_Serial.begin(BoudRate);
 
     ClearBuffer();
@@ -31,7 +31,7 @@ EnergyBoard::EnergyBoard(int Gain_) {
     EnergyBoard_Serial.write(0x8E);			// CheckSum (0x8E)
 
 	delay(10);
-	
+
 	ClearBuffer();
 	EnergyBoard_Serial.write(0xAA);			// Header (0xAA)
 	EnergyBoard_Serial.write(0x06);			// Total Sended Byte (0x06)
@@ -40,17 +40,17 @@ EnergyBoard::EnergyBoard(int Gain_) {
 	EnergyBoard_Serial.write(0xFF);			// Setting Command (0xFF)
 	EnergyBoard_Serial.write(0x22);			// CheckSum (0x22)
 	EnergyBoard_Serial.end();
-    
+
     if (Gain_ != 0) Gain = true;
 }
 
 // Voltage Functions
 float EnergyBoard::Voltage_RMS(char Phase) {
-	
+
 	float Voltage_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0x90,0x00); // RMS Voltage Phase R = 0xAA,0x07,0xA3,0x90,0x00,0xE3,0x39
@@ -67,88 +67,88 @@ float EnergyBoard::Voltage_RMS(char Phase) {
 
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
         // Close UART Connection
         EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
         // Control Recieved Data
         if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-            
+
             // Acknowledge with data.
             if (Header == 0xAA) Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			else {return -1;} // Header Error
-            
+
 			// Gain Correction
 			if (Gain) Voltage_ = Voltage_ * Voltage_Gain;
         }
         else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Voltage_ > Min_Read_Voltage) return Voltage_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Voltage_RMS_Average() {
-	
+
 	float Voltage_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	SendCommand(0x99,0x00); // RMS Voltage Avarage = 0xAA,0x07,0xA3,0x99,0x00,0xE3,0x39
 
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Voltage_ = Voltage_ * Voltage_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Voltage_ > Min_Read_Voltage) return Voltage_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Voltage_Instantaneous(char Phase) {
-	
+
 	float Voltage_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0x87,0x00); // Instantaneous Voltage Phase R = 0xAA,0x07,0xA3,0x87,0x00,0xE3,0x39
@@ -162,48 +162,48 @@ float EnergyBoard::Voltage_Instantaneous(char Phase) {
 		default:
 			return 0; // No Phase Selected Error
 	}
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Voltage_ = Voltage_ * Voltage_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Voltage_ > Min_Read_Voltage) return Voltage_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Voltage_Fundamental(char Phase) {
-	
+
 	float Voltage_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0x9C,0x00); // Fundamental Voltage Phase R = 0xAA,0x07,0xA3,0x90,0x00,0xE3,0x39
@@ -217,48 +217,48 @@ float EnergyBoard::Voltage_Fundamental(char Phase) {
 		default:
 			return 0; // No Phase Selected Error
 	}
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Voltage_ = Voltage_ * Voltage_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Voltage_ > Min_Read_Voltage) return Voltage_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Voltage_Harmonic(char Phase) {
-	
+
 	float Voltage_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0xA5,0x00); // Harmonic Voltage Phase R = 0xAA,0x07,0xA3,0xA5,0x00,0xE3,0x39
@@ -272,126 +272,126 @@ float EnergyBoard::Voltage_Harmonic(char Phase) {
 		default:
 			return 0; // No Phase Selected Error
 	}
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Voltage_ = Voltage_ * Voltage_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Voltage_ > Min_Read_Voltage) return Voltage_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Voltage_RMS_Alarm_Min() {
 
 	float Voltage_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	SendCommand(0xB1,0x00); // RMS Voltage MIN Limit = 0xAA,0x07,0xA3,0xB1,0x00,0xE3,0x39
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Voltage_ = Voltage_ * Voltage_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Voltage_ > Min_Read_Voltage) return Voltage_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Voltage_RMS_Alarm_Max() {
 
 	float Voltage_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	SendCommand(0xB4,0x00); // RMS Voltage MAX Limit = 0xAA,0x07,0xA3,0xB4,0x00,0xE3,0x39
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) Voltage_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Voltage_ = Voltage_ * Voltage_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Voltage_ > Min_Read_Voltage) return Voltage_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 
@@ -399,9 +399,9 @@ float EnergyBoard::Voltage_RMS_Alarm_Max() {
 float EnergyBoard::Current_RMS(char Phase) {
 
 	float Current_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0xD5,0x00); // RMS Current Phase R = 0xAA,0x07,0xA3,0xD5,0x00,0xE3,0xF4
@@ -415,91 +415,91 @@ float EnergyBoard::Current_RMS(char Phase) {
 		default:
 			return 0; // No Phase Selected Error
 	}
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Current_ = Current_ * Current_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Current_ > Min_Read_Current) return Current_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Current_RMS_Average() {
 
 	float Current_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	SendCommand(0xDE,0x00); // RMS Current Avarage = 0xAA,0x07,0xA3,0xDE,0x00,0xE3,0xF4
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Current_ = Current_ * Current_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Current_ > Min_Read_Current) return Current_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Current_Peak(char Phase) {
 
 	float Current_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0xCC,0x00); // Peak Current Phase R = 0xAA,0x07,0xA3,0xCC,0x00,0xE3,0xF4
@@ -513,48 +513,48 @@ float EnergyBoard::Current_Peak(char Phase) {
 		default:
 			return 0; // No Phase Selected Error
 	}
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Current_ = Current_ * Current_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Current_ > Min_Read_Current) return Current_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Current_Instantaneous(char Phase) {
-	
+
 	float Current_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0xBA,0x00); // Instantaneous Current Phase R = 0xAA,0x07,0xA3,0xBA,0x00,0xE3,0xF4
@@ -568,48 +568,48 @@ float EnergyBoard::Current_Instantaneous(char Phase) {
 		default:
 			return 0; // No Phase Selected Error
 	}
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Current_ = Current_ * Current_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Current_ > Min_Read_Current) return Current_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Current_Fundamental(char Phase) {
 
 	float Current_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0xE1,0x00); // Fundamental Current Phase R = 0xAA,0x07,0xA3,0xE1,0x00,0xE3,0xF4
@@ -623,48 +623,48 @@ float EnergyBoard::Current_Fundamental(char Phase) {
 		default:
 			return 0; // No Phase Selected Error
 	}
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Current_ = Current_ * Current_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Current_ > Min_Read_Current) return Current_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Current_Harmonic(char Phase) {
 
 	float Current_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0xEA,0x00); // Harmonic Current Phase R = 0xAA,0x07,0xA3,0xEA,0x00,0xE3,0xF4
@@ -678,83 +678,83 @@ float EnergyBoard::Current_Harmonic(char Phase) {
 		default:
 			return 0; // No Phase Selected Error
 	}
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Current_ = Current_ * Current_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Current_ > Min_Read_Current) return Current_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Current_RMS_Alarm_Max() {
 
 	float Current_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	SendCommand(0xF3,0x00); // RMS Current Max Limit = 0xAA,0x07,0xA3,0xF3,0x00,0xE3,0xF4
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) Current_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Current_ = Current_ * Current_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Current_ > Min_Read_Current) return Current_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 
@@ -762,9 +762,9 @@ float EnergyBoard::Current_RMS_Alarm_Max() {
 float EnergyBoard::Power_Active(char Phase) {
 
 	float Power_ = 0;
-		
+
 	EnergyBoard_Serial.begin(BoudRate);
-		
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0x1D,0x01); // Active Power Phase R = 0xAA,0x07,0xA3,0x1D,0x01,0xE3,0xF4
@@ -778,7 +778,7 @@ float EnergyBoard::Power_Active(char Phase) {
 		default:
 			return 0; // No Phase Selected Error
 	}
-		
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
 
@@ -794,7 +794,7 @@ float EnergyBoard::Power_Active(char Phase) {
 
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-			
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
 
@@ -818,36 +818,36 @@ float EnergyBoard::Power_Active(char Phase) {
 
 	if (Power_ > Min_Read_Power) return Power_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Active_Average() {
-	
+
 	float Power_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	SendCommand(0x38,0x01); // Active Power Avarage = 0xAA,0x07,0xA3,0x38,0x01,0xE3,0xF4
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) {
 				if (Data3 < 128) {
@@ -858,25 +858,25 @@ float EnergyBoard::Power_Active_Average() {
 				}
 			}
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Power_ = Power_ * Power_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Power_ > Min_Read_Power) return Power_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Reactive(char Phase) {
 
 	float Power_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0x26,0x01); // ReActive Power Phase R = 0xAA,0x07,0xA3,0x26,0x01,0xE3,0xF4
@@ -890,26 +890,26 @@ float EnergyBoard::Power_Reactive(char Phase) {
 		default:
 			return 0; // No Phase Selected Error
 	}
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) {
 				if (Data3 < 128) {
@@ -920,46 +920,46 @@ float EnergyBoard::Power_Reactive(char Phase) {
 				}
 			}
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Power_ = Power_ * Power_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Power_ > Min_Read_Power) return Power_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Reactive_Average() {
 
 	float Power_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	SendCommand(0x3B,0x01); // ReActive Power Avarage = 0xAA,0x07,0xA3,0x38,0x01,0xE3,0xF4
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) {
 				if (Data3 < 128) {
@@ -970,25 +970,25 @@ float EnergyBoard::Power_Reactive_Average() {
 				}
 			}
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Power_ = Power_ * Power_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Power_ > Min_Read_Power) return Power_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Apparent(char Phase) {
 
 	float Power_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0x2F,0x01); // Apparent Power Phase R = 0xAA,0x07,0xA3,0x2F,0x01,0xE3,0xF4
@@ -1002,26 +1002,26 @@ float EnergyBoard::Power_Apparent(char Phase) {
 		default:
 			return 0; // No Phase Selected Error
 	}
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) {
 				if (Data3 < 128) {
@@ -1032,46 +1032,46 @@ float EnergyBoard::Power_Apparent(char Phase) {
 				}
 			}
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Power_ = Power_ * Power_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Power_ > Min_Read_Power) return Power_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Apparent_Average() {
 
 	float Power_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	SendCommand(0x3E,0x01); // Apparent Power Avarage = 0xAA,0x07,0xA3,0x3E,0x01,0xE3,0xF4
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) {
 				if (Data3 < 128) {
@@ -1082,25 +1082,25 @@ float EnergyBoard::Power_Apparent_Average() {
 				}
 			}
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Power_ = Power_ * Power_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Power_ > Min_Read_Power) return Power_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Fundamental(char Phase) {
 
 	float Power_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0x4A,0x01); // Fundamental Power Phase R = 0xAA,0x07,0xA3,0x2F,0x01,0xE3,0xF4
@@ -1114,26 +1114,26 @@ float EnergyBoard::Power_Fundamental(char Phase) {
 		default:
 			return 0; // No Phase Selected Error
 	}
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) {
 				if (Data3 < 128) {
@@ -1144,25 +1144,25 @@ float EnergyBoard::Power_Fundamental(char Phase) {
 				}
 			}
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Power_ = Power_ * Power_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Power_ > Min_Read_Power) return Power_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Harmonic(char Phase) {
 
 	float Power_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0x53,0x01); // Harmonic Power Phase R = 0xAA,0x07,0xA3,0x53,0x01,0xE3,0xF4
@@ -1176,26 +1176,26 @@ float EnergyBoard::Power_Harmonic(char Phase) {
 		default:
 			return 0; // No Phase Selected Error
 	}
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) {
 				if (Data3 < 128) {
@@ -1206,25 +1206,25 @@ float EnergyBoard::Power_Harmonic(char Phase) {
 				}
 			}
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Power_ = Power_ * Power_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Power_ > Min_Read_Power) return Power_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Fundamental_VA(char Phase) {
 
 	float Power_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0x5C,0x01); // Fundamental VA Phase R = 0xAA,0x07,0xA3,0x53,0x01,0xE3,0xF4
@@ -1238,26 +1238,26 @@ float EnergyBoard::Power_Fundamental_VA(char Phase) {
 		default:
 			return 0; // No Phase Selected Error
 	}
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) {
 				if (Data3 < 128) {
@@ -1268,25 +1268,25 @@ float EnergyBoard::Power_Fundamental_VA(char Phase) {
 				}
 			}
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Power_ = Power_ * Power_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	if (Power_ > Min_Read_Power) return Power_;
 	else {return 0;}
-	
+
 	return -3; // No Data Error
 }
 float EnergyBoard::Power_Factor(char Phase) {
 
 	float Power_Factor = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	switch (Phase) {
 		case 'R':
 			SendCommand(0x65,0x01); // PowerFactor Phase R = 0xAA,0x07,0xA3,0x65,0x01,0xE3,0x63
@@ -1300,26 +1300,26 @@ float EnergyBoard::Power_Factor(char Phase) {
 		default:
 			return 0; // No Phase Selected Error
 	}
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) {
 				if (Data3 < 128) {
@@ -1330,43 +1330,43 @@ float EnergyBoard::Power_Factor(char Phase) {
 				}
 			}
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Power_Factor = Power_Factor * Power_Factor_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	return Power_Factor;
 }
 float EnergyBoard::Power_Factor_Average() {
 
 	float Power_Factor = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	SendCommand(0x6E,0x01); // PowerFactor Avarage = 0xAA,0x07,0xA3,0x65,0x01,0xE3,0x63
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) {
 				if (Data3 < 128) {
@@ -1377,14 +1377,14 @@ float EnergyBoard::Power_Factor_Average() {
 				}
 			}
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Power_Factor = Power_Factor * Power_Factor_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	return Power_Factor;
 }
 
@@ -1392,85 +1392,85 @@ float EnergyBoard::Power_Factor_Average() {
 float EnergyBoard::Frequency(void) {
 
 	float Frequency_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	SendCommand(0x80,0x01); // Frequency = 0xAA,0x07,0xA3,0x80,0x01,0xE3,0x48
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) {
 				Frequency_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			}
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Frequency_ = Frequency_ * Frequency_Gain;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	return Frequency_;
 }
 float EnergyBoard::IC_Temperature(void) {
 
 	float Temperature_ = 0;
-	
+
 	EnergyBoard_Serial.begin(BoudRate);
-	
+
 	SendCommand(0x74,0x01); // Temperature
-	
+
 	// Read Data From UART
 	if (EnergyBoard_Serial.available()) {
-		
+
 		byte Header					= EnergyBoard_Serial.read();
 		byte Recieved_Byte_Count	= EnergyBoard_Serial.read();
 		byte Data1					= EnergyBoard_Serial.read();
 		byte Data2					= EnergyBoard_Serial.read();
 		byte Data3					= EnergyBoard_Serial.read();
 		byte CheckSum				= EnergyBoard_Serial.read();
-		
+
 		// Close UART Connection
 		EnergyBoard_Serial.end();
-		
+
 		// Calculate Checksum
 		byte ChkS = 0x100 - ((Header + Recieved_Byte_Count + Data1 + Data2 + Data3) % 256);
-		
+
 		// Control Recieved Data
 		if (int(Recieved_Byte_Count) == 6 and CheckSum == ChkS) {
-			
+
 			// Acknowledge with data.
 			if (Header == 0xAA) {
 				Temperature_ = (Data3 * 65536 + Data2 * 256 + Data1);
 			}
 			else {return -1;} // Header Error
-			
+
 			// Gain Correction
 			if (Gain) Temperature_ = Temperature_ / 1000;
 		}
 		else {return -2;} // Recieved Data or Checksum Error
 	}
 	else {EnergyBoard_Serial.end();}
-	
+
 	return Temperature_;
 }
 
@@ -1484,7 +1484,7 @@ bool EnergyBoard::ClearBuffer(void) {
 	return true;
 }
 bool EnergyBoard::SendCommand(int CHR1, int CHR2) {
-	
+
 /*
 	MAX78630 Serial Comminication Read Values Structure
 	---------------------------------------------------
@@ -1498,11 +1498,11 @@ bool EnergyBoard::SendCommand(int CHR1, int CHR2) {
 	6. byte is the requested byte count (0xE3)
 	7. byte is the CRC correction byte (CHK)
 */
-	
+
 	ClearBuffer();
 
     int ChkS = 0x100 - ((0xAA + 0x07 + 0xA3 + CHR1 + CHR2 + 0xE3) % 256); // Calculate checksum
-    
+
     EnergyBoard_Serial.write(0xAA);
     EnergyBoard_Serial.write(0x07);
     EnergyBoard_Serial.write(0xA3);
@@ -1511,6 +1511,6 @@ bool EnergyBoard::SendCommand(int CHR1, int CHR2) {
     EnergyBoard_Serial.write(0xE3);
     EnergyBoard_Serial.write(ChkS);
     delay(20);
-    
+
     return true;
 }
