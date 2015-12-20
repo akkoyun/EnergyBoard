@@ -15,7 +15,7 @@
 
 ![EnergyBoard_Functions](https://github.com/LVXElektronik/EnergyBoard/blob/master/extras/EnergyBoard_Functions.jpg?raw=true)
 ## Code Example
-```Arduino
+```C++
 Serial.print(Energy->Voltage_RMS('R')); Serial.println(" V");
 Serial.print(Energy->Voltage_Instantaneous('R')); Serial.println(" V");
 Serial.print(Energy->Voltage_Fundamental('R')); Serial.println(" V");
