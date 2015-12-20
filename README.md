@@ -14,6 +14,10 @@
 ![EB_Block](https://github.com/x2bus/EnergyBoard/blob/master/extras/EnergyBoard_Blok.jpg?raw=true)
 
 ![EnergyBoard_Functions](https://github.com/LVXElektronik/EnergyBoard/blob/master/extras/EnergyBoard_Functions.jpg?raw=true)
+## Code Example
+```c++
+Serial.print(Energy->Voltage_RMS('R')); Serial.println(" V");
+```
 
 ## Example Output
 
