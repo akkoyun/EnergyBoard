@@ -1,32 +1,17 @@
-language: c
-sudo: false
+language: python
+
 cache:
   directories:
-    - ~/arduino_ide
-    - ~/.arduino15/packages/
-git:
-  depth: false
-  quiet: true
-env:
-  global:
-     - ARDUINO_IDE_VERSION="1.8.7"
-     - PRETTYNAME="Noxcorp EnergyBoard"
-# Optional, will default to "$TRAVIS_BUILD_DIR/Doxyfile"
-#    - DOXYFILE: $TRAVIS_BUILD_DIR/Doxyfile
+  - "~/.platformio"
 
-before_install:
-   - source <(curl -SLs https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/install.sh)
+install:
+- pip install -U platformio
+- platformio lib install 986 # LSM303
+
+env:
+- BOARD=megaatmega2560
 
 script:
-   - build_main_platforms
-   - build_platform trinket
-
-notifications:
-  email:
-    on_success: change
-    on_failure: change
-
-# Generate and deploy documentation
-#after_success:
-#  - source <(curl -SLs  https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/library_check.sh)
-#  - source <(curl -SLs  https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/doxy_gen_and_deploy.sh)
+- for e in examples/*; do
+    platformio ci --board=$BOARD --lib=. $e/*;
+  done
