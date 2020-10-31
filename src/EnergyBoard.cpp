@@ -18,8 +18,6 @@
 #include "Arduino.h"
 #include "EnergyBoard.h"
 
-#define EnergyBoard_Serial Serial3				// Define EnergyBoard Serial
-
 EnergyBoard::EnergyBoard(int Gain_) {
 
     EnergyBoard_Serial.begin(BoudRate);

@@ -20,8 +20,10 @@
 
 #include <Arduino.h>
 
-// EnergyBoard Setting
+#define EnergyBoard_Serial Serial3				// Define EnergyBoard Serial
 #define BoudRate            38400						// Serial Boud Rate (Default: 38400)
+
+// EnergyBoard Setting
 #define Voltage_Gain        0.0000793945940258412		// Voltage Gain Default
 #define Current_Gain        0.00000596046186144157		// Current Gain Default
 #define Power_Gain          0.00396962860118015		// Power Gain Default
